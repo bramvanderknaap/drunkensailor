@@ -59,6 +59,47 @@
     }).addTo(kaart);
   });
 
+  // ---------- namen van zeeën en oceanen ----------
+  // [naam, breedtegraad, lengtegraad, soort, draaiing in graden]
+  // soort: oceaan (altijd te zien), zee (vanaf zoom 3), klein (vanaf zoom 5).
+  const ZEEEN = [
+    ["Atlantische Oceaan", 31, -44, "oceaan"], ["Atlantische Oceaan", -20, -18, "oceaan"],
+    ["Stille Oceaan", 15, -145, "oceaan"], ["Stille Oceaan", -32, -115, "oceaan"], ["Stille Oceaan", 22, 165, "oceaan"],
+    ["Indische Oceaan", -22, 78, "oceaan"],
+    ["Noordelijke IJszee", 84, 60, "oceaan"],
+    ["Zuidelijke Oceaan", -56, 20, "oceaan"], ["Zuidelijke Oceaan", -58, -120, "oceaan"], ["Zuidelijke Oceaan", -56, 140, "oceaan"],
+
+    ["Noordzee", 56, 3.5, "zee"], ["Oostzee", 56.2, 19.2, "zee"], ["Noorse Zee", 68, 2, "zee"],
+    ["Barentszzee", 74, 40, "zee"], ["Middellandse Zee", 34.5, 18, "zee"], ["Zwarte Zee", 43.3, 34, "zee"],
+    ["Rode Zee", 20.5, 38.4, "zee", 58], ["Arabische Zee", 15, 64, "zee"], ["Golf van\nBengalen", 15.5, 88.5, "zee"],
+    ["Zuid-Chinese\nZee", 12, 113.5, "zee"], ["Oost-Chinese\nZee", 29, 126.5, "zee"], ["Japanse Zee", 41, 133.5, "zee"],
+    ["Filipijnenzee", 18, 132, "zee"], ["Javazee", -5, 111, "zee"], ["Koraalzee", -17, 155, "zee"],
+    ["Tasmanzee", -38, 160, "zee"], ["Beringzee", 57, -178, "zee"], ["Golf van Alaska", 56, -145, "zee"],
+    ["Hudsonbaai", 60, -85, "zee"], ["Labradorzee", 58, -54, "zee"], ["Golf van\nMexico", 25.5, -90, "zee"],
+    ["Caribische Zee", 15.2, -72, "zee"], ["Golf van\nBiskaje", 45.3, -5, "zee"], ["Golf van Guinee", 2, 3, "zee"],
+
+    ["Het Kanaal", 50.15, -2, "klein", -12], ["Keltische Zee", 51, -8.6, "klein"], ["Ierse Zee", 53.75, -4.9, "klein"],
+    ["Perzische Golf", 27, 51.5, "klein", 32], ["Straat Malakka", 2.8, 100.8, "klein", 40],
+    ["Kanaal van\nMozambique", -18.5, 41.2, "klein"]
+  ];
+  kaart.createPane("namen").style.zIndex = 380;
+  [-360, 0, 360].forEach(verschuiving => {
+    ZEEEN.forEach(([naam, lat, lon, soort, draai = 0]) => {
+      L.marker([lat, lon + verschuiving], {
+        pane: "namen",
+        interactive: false,
+        keyboard: false,
+        icon: L.divIcon({ className: "zeenaam " + soort, iconSize: null, html: `<span style="--draai:${draai}deg">${naam.split("\n").map(esc).join("<br>")}</span>` })
+      }).addTo(kaart);
+    });
+  });
+  // Welke namen te zien zijn hangt af van hoe ver je bent ingezoomd.
+  function zetNamen() {
+    kaart.getContainer().dataset.zoom = Math.floor(kaart.getZoom());
+  }
+  kaart.on("zoomend", zetNamen);
+  zetNamen();
+
   // ---------- routes ----------
   // Elke route splitsen we in het stuk dat gevaren is (tot het wrak)
   // en het stuk dat het schip nooit heeft gevaren.

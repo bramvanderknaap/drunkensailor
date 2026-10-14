@@ -59,6 +59,13 @@ Oude munten en voorwerpen zijn voor verzamelaars vaak veel meer waard. Veel bedr
 je online ziet tellen die verzamelwaarde mee, of rekenen een oud bedrag om met inflatie;
 daarom kunnen ze flink verschillen.
 
+## Namen van zeeën en oceanen
+
+De namen op de kaart staan bovenin `js/kaart.js`, in de lijst `ZEEEN`. Elke regel is
+`[naam, breedtegraad, lengtegraad, soort]`, met soort `oceaan` (altijd te zien), `zee`
+(als je wat inzoomt) of `klein` (als je ver inzoomt). Een `\n` in de naam maakt er twee
+regels van, en een getal aan het eind draait de naam een paar graden.
+
 ## Hoe diep liggen ze?
 
 Bij `diepte` staat hoe diep elk wrak (waarschijnlijk) ligt, met een bron. De dieptemeter
