@@ -4,22 +4,10 @@ import json, os, re, time, urllib.parse, urllib.request
 
 UA = "drunkensailor-kaart/1.0 (https://github.com/bramvanderknaap/drunkensailor)"
 BRONNEN = {
-  "flor-do-mar": ["en:Flor de la Mar", "pt:Flor de la Mar", "cat:Flor de la mar (ship, 1502)"],
-  "merchant-royal": ["en:Merchant Royal"],
-  "juncal": ["en:Nuestra Señora del Juncal", "es:Nuestra Señora del Juncal"],
-  "hms-sussex": ["en:HMS Sussex (1693)"],
-  "san-jose": ["en:Spanish galleon San José", "file:Wager's Action off Cartagena 28 May 1708.jpg"],
-  "atocha": ["en:Nuestra Señora de Atocha", "es:Nuestra Señora de Atocha (galeón)"],
-  "santa-margarita": ["en:Santa Margarita (1622 ship)", "en:1622 Spanish treasure fleet"],
-  "batavia": ["en:Batavia (1628 ship)", "nl:Batavia (schip, 1628)"],
-  "vergulde-draeck": ["en:Vergulde Draeck", "nl:Vergulde Draeck"],
-  "zuytdorp": ["en:Zuytdorp", "nl:Zuytdorp (schip, 1701)"],
-  "rooswijk": ["en:Rooswijk", "nl:Rooswijk (schip, 1737)"],
-  "hms-lutine": ["en:HMS Lutine (1779)", "cat:HMS Lutine (ship, 1779)"],
-  "general-grant": ["en:General Grant (sailing ship)", "cat:General Grant (ship, 1864)"],
-  "ss-central-america": ["en:SS Central America", "cat:Central America (ship, 1852)"],
-  "ss-laurentic": ["en:SS Laurentic (1908)", "cat:Laurentic (ship, 1909)"],
-  "algemeen": ["cat:Paintings of galleons", "cat:Paintings of East Indiamen of the Dutch East India Company", "en:Spanish treasure fleet", "en:Galleon", "en:East Indiaman"],
+  "voc": ["zoek:Ludolf Bakhuysen Dutch East Indiamen filetype:bitmap", "zoek:East Indiaman Dutch East India Company painting 17th century filetype:bitmap", "zoek:Hendrick Cornelisz Vroom ships filetype:bitmap", "zoek:Abraham Storck VOC ship filetype:bitmap", "zoek:retourschip VOC schilderij filetype:bitmap"],
+  "galjoen": ["zoek:Spanish galleon painting filetype:bitmap", "zoek:Andries van Eertvelt galleons storm filetype:bitmap", "zoek:Spanish treasure fleet painting filetype:bitmap", "zoek:galeón español pintura siglo XVII filetype:bitmap", "zoek:Aert Anthonisz Spanish ships filetype:bitmap"],
+  "engels": ["zoek:Willem van de Velde English ship 1640s filetype:bitmap", "zoek:English merchant ship 17th century painting filetype:bitmap", "zoek:English East Indiaman 1640 painting filetype:bitmap"],
+  "extra": ["file:SSCentralAmerica.jpg", "file:Lutine1.jpg", "file:Laurentic (I).jpg", "file:Gilt Dragon 2.jpg", "file:HMS Sussex (80) model starboard broadside.jpg"],
 }
 SKIP = re.compile(r"(\.svg$|\.ogg$|\.webm$|flag|commons-logo|icon|symbol|wiki|edit-clear|question_book|map|locator|disambig)", re.I)
 
@@ -34,6 +22,9 @@ def bestanden(bron):
     soort, naam = bron.split(":", 1)
     if soort == "file":
         return ["File:" + naam]
+    if soort == "zoek":
+        d = api("commons.wikimedia.org", action="query", list="search", srsearch=naam, srnamespace="6", srlimit="6")
+        return [m["title"] for m in d["query"]["search"]]
     if soort == "cat":
         d = api("commons.wikimedia.org", action="query", list="categorymembers", cmtitle="Category:" + naam, cmtype="file", cmlimit="40")
         return [m["title"] for m in d["query"]["categorymembers"]]
@@ -43,7 +34,8 @@ def bestanden(bron):
         uit += [i["title"] for i in pg.get("images", [])]
     return uit
 
-os.makedirs("kandidaten", exist_ok=True)
+UIT = os.environ.get("UIT", "kandidaten")
+os.makedirs(UIT, exist_ok=True)
 index = {}
 for schip, bronnen in BRONNEN.items():
     gezien, lijst = set(), []
@@ -57,8 +49,8 @@ for schip, bronnen in BRONNEN.items():
             gezien.add(t)
             lijst.append((bron, t))
     index[schip] = []
-    os.makedirs(f"kandidaten/{schip}", exist_ok=True)
-    for n, (bron, titel) in enumerate(lijst[:25]):
+    os.makedirs(f"{UIT}/{schip}", exist_ok=True)
+    for n, (bron, titel) in enumerate(lijst[:30]):
         try:
             d = api("commons.wikimedia.org", action="query", prop="imageinfo", titles=titel, iiprop="url|extmetadata|size", iiurlwidth="900")
             pg = d["query"]["pages"][0]
@@ -67,8 +59,8 @@ for schip, bronnen in BRONNEN.items():
             ii = pg["imageinfo"][0]
             md = ii.get("extmetadata", {})
             g = lambda k: re.sub("<[^>]+>", "", md.get(k, {}).get("value", "")).strip()
-            ext = os.path.splitext(ii.get("thumburl", ii["url"]))[1].lower() or ".jpg"
-            pad = f"kandidaten/{schip}/{n:02d}{ext}"
+            ext = os.path.splitext(urllib.parse.urlparse(ii.get("thumburl", ii["url"])).path)[1].lower() or ".jpg"
+            pad = f"{UIT}/{schip}/{n:02d}{ext}"
             req = urllib.request.Request(ii.get("thumburl", ii["url"]), headers={"User-Agent": UA})
             with urllib.request.urlopen(req, timeout=60) as r, open(pad, "wb") as f:
                 f.write(r.read())
@@ -81,4 +73,4 @@ for schip, bronnen in BRONNEN.items():
             time.sleep(0.3)
         except Exception as e:
             print("FOUT", schip, titel, e)
-json.dump(index, open("kandidaten/index.json", "w"), ensure_ascii=False, indent=1)
+json.dump(index, open(f"{UIT}/index.json", "w"), ensure_ascii=False, indent=1)
