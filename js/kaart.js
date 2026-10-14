@@ -207,10 +207,29 @@
   // zouden alle ondiepe wrakken bovenaan op een hoopje liggen.
   const DIEPST = 3000;
   const hoogte = m => (100 * Math.log10(Math.max(m, 1)) / Math.log10(DIEPST)).toFixed(1);
+  // De kleur van het water, van het oppervlak (0%) tot 3 km diep (100%).
+  // De dieptemeter en de balk boven de diepte gebruiken allebei deze kleuren.
+  const WATER = [[0, [95, 194, 179]], [25, [31, 100, 97]], [65, [14, 52, 53]], [100, [3, 16, 18]]];
+  const rgb = c => `rgb(${c.map(Math.round).join(",")})`;
+  function waterKleur(p) {
+    for (let i = 1; i < WATER.length; i++) {
+      const [p0, c0] = WATER[i - 1], [p1, c1] = WATER[i];
+      if (p <= p1) return c0.map((v, k) => v + (c1[k] - v) * (p - p0) / (p1 - p0));
+    }
+    return WATER[WATER.length - 1][1];
+  }
+  const waterVerloop = richting => `linear-gradient(${richting}, ${WATER.map(([p, c]) => `${rgb(c)} ${p}%`).join(", ")})`;
+  // De balk boven de diepte krijgt de kleur van het water bij het wrak:
+  // licht bij ondiepe wrakken, bijna zwart bij de diepste.
+  function diepteBalk(m) {
+    if (m == null) return `<div class="balkje water onbekend" style="background:${waterVerloop("90deg")}"></div>`;
+    const kleur = rgb(waterKleur(+hoogte(m)));
+    return `<div class="balkje water" style="background:${kleur};--gloed:${kleur}"></div>`;
+  }
   function dieptemeter(m) {
     const streepjes = [[1, "oppervlak"], [10, "10 m"], [100, "100 m"], [1000, "1 km"]];
     return `<div class="meter" aria-hidden="true">
-      <span class="water"></span>
+      <span class="water" style="background:${waterVerloop("180deg")}"></span>
       ${streepjes.map(([d, t]) => `<span class="streep" style="top:${hoogte(d)}%">${t}</span>`).join("")}
       <span class="duikers" style="top:${hoogte(40)}%">duikers</span>
       ${m == null ? `<span class="wrak onbekend" style="top:50%">?</span>`
@@ -224,6 +243,9 @@
     const a = s.afbeelding;
     const sch = s.schatting;
     const niveau = ["zeer laag", "laag", "middel", "hoog"].indexOf(sch.zekerheid) + 1;
+    const procent = sch.deel >= 0.995 ? "vrijwel de hele buit"
+      : sch.deel < 0.01 ? "minder dan 1% van de buit"
+      : `ca. ${Math.max(5, Math.round(sch.deel * 20) * 5)}% van de buit`;
     details.innerHTML = `
       ${a ? `<figure class="vak afbeelding">
         <img src="${esc(a.src)}" alt="${esc(a.onderschrift)}"${a.positie ? ` style="object-position:${esc(a.positie)}"` : ""}>
@@ -239,8 +261,9 @@
         <div class="vak"><span class="label">buit</span><div class="balkje"></div>
           <span class="bedrag">${esc(sch.totaal)}</span><span class="klein">hele lading, in geld van nu</span>
           <span class="groot">${esc(s.buit)}</span></div>
-        <div class="vak"><span class="label">waarde nog op de bodem</span><div class="balkje goud"></div>
-          <span class="bedrag">${esc(sch.bodem)}</span><span class="klein">beste schatting</span>
+        <div class="vak"><span class="label">waarde nog op de bodem</span>
+          <div class="balkje spoor" title="${procent}"><div class="balkje goud" style="width:${(100 * sch.deel).toFixed(1)}%"></div></div>
+          <span class="bedrag">${esc(sch.bodem)}</span><span class="klein">beste schatting · ${procent}</span>
           <span class="zekerheid" title="Hoe zeker is deze schatting?">zekerheid: ${esc(sch.zekerheid)}
             <span class="stipjes" aria-hidden="true">${[1, 2, 3, 4].map(i => `<i${i <= niveau ? ' class="aan"' : ""}></i>`).join("")}</span></span></div>
       </div>
@@ -252,7 +275,7 @@
       </div>
       <div class="vak diepte">
         <div class="diepte-tekst">
-          <span class="label">diepte</span><div class="balkje blauw"></div>
+          <span class="label">diepte</span>${diepteBalk(s.diepte.meters)}
           <span class="bedrag">${esc(s.diepte.kort)}</span>
           <p>${esc(s.diepte.tekst)}</p>
           <p class="bronnen"><a href="${esc(s.diepte.bron[1])}" target="_blank" rel="noopener">${esc(s.diepte.bron[0])}</a></p>
@@ -295,13 +318,13 @@
     SCHEPEN.forEach(o => { if (o !== s) markers[o.id].setZIndexOffset(0); });
 
     toonDetails(s);
+    // De zoom blijft gelijk; de kaart schuift alleen zodat het wrak midden
+    // in het vrije stuk tussen de vloot (links) en de details (rechts) staat.
     const breed = window.innerWidth >= 900;
-    kaart.flyToBounds(L.latLngBounds(gevaren.concat(gepland)), {
-      paddingTopLeft: breed ? [320, 40] : [30, 30],
-      paddingBottomRight: breed ? [470, 40] : [30, 30],
-      maxZoom: 6,
-      duration: beweging() ? 0.9 : 0
-    });
+    const links = breed ? 300 : 0, rechts = breed ? 470 : 0;
+    const zoom = kaart.getZoom();
+    const midden = kaart.project(s.wrak, zoom).add([(rechts - links) / 2, 0]);
+    kaart.panTo(kaart.unproject(midden, zoom), { animate: beweging(), duration: 0.7 });
     zetAdres(s.id);
   }
 

@@ -53,6 +53,8 @@ een vergelijkbaar schip uit dezelfde tijd, met "Ter illustratie" in het ondersch
 
 Bij elk schip staat bij `schatting` wat de hele lading nu waard is (`totaal`) en wat er
 vermoedelijk nog op de bodem ligt (`bodem`), met een uitleg en links naar de bronnen.
+Met `deel` (van 0 tot 1) staat erbij welk deel van de buit er nog ligt; zo lang is de
+gouden balk bij "waarde nog op de bodem".
 Dit is de waarde van het goud en zilver tegen de prijs van 14 oktober 2026
 (goud €118 per gram, zilver €1,74 per gram, zie `PRIJZEN` bovenin `js/schepen.js`).
 Oude munten en voorwerpen zijn voor verzamelaars vaak veel meer waard. Veel bedragen die
@@ -72,6 +74,7 @@ Bij `diepte` staat hoe diep elk wrak (waarschijnlijk) ligt, met een bron. De die
 in het paneel loopt van het wateroppervlak tot 3 km diep en is logaritmisch: 1, 10, 100
 en 1000 meter staan even ver uit elkaar, zodat je ondiepe en diepe wrakken allebei goed
 ziet. De stippellijn bij 40 meter is ongeveer hoe diep sportduikers kunnen komen.
+De balk boven de diepte krijgt dezelfde kleur als het water in de meter op die diepte.
 
 ## Let op
 
