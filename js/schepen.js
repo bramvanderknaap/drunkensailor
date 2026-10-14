@@ -17,6 +17,7 @@
 //          onderschrift, maker, licentie en een link naar de bron.
 //  schatting: wat de buit nu waard is. totaal = de hele lading in geld
 //          van nu, bodem = wat er vermoedelijk nog op de zeebodem ligt,
+//          deel = welk deel van de buit er nog ligt (1 = alles, 0,5 = de helft),
 //          zekerheid = zeer laag, laag, middel of hoog. In uitleg staat
 //          hoe het berekend is, in bronnen de links waar het vandaan komt.
 //  diepte: meters = hoe diep het wrak (waarschijnlijk) ligt, voor de
@@ -55,6 +56,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "onbekend",
       bodem: "onbekend",
+      deel: 1,
       zekerheid: "zeer laag",
       uitleg: "Er bestaat geen lijst van wat er aan boord was. Het vaak genoemde verhaal van ‘60 ton goud’ zou nu ongeveer €7 miljard waard zijn, maar daar is geen bron voor. Volgens Albuquerque zelf werd bijna niets gered: alleen een gouden kroon, een zwaard en een robijnen ring.",
       bronnen: [
@@ -93,6 +95,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €190 mln",
       bodem: "ca. €190 mln",
+      deel: 1,
       zekerheid: "laag",
       uitleg: "Een brief uit 1641 schatte de lading op minstens £400.000. Ik reken met ongeveer 500.000 zilveren ‘pieces of eight’ en 400 zilverbaren (samen ca. 27 ton zilver) en de rest in goud (ca. 1,2 ton). Er is niets van geborgen. De vaak genoemde ‘100.000 pond goud’ (45 ton, ruim €5 miljard) past niet bij die £400.000 uit 1641. Bandbreedte: €80 tot 400 miljoen.",
       bronnen: [
@@ -130,6 +133,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €160 mln",
       bodem: "ca. €160 mln",
+      deel: 1,
       zekerheid: "middel",
       uitleg: "Volgens de Spaanse administratie vervoerde de Juncal 3.644.198 pesos aan zilver en munten. Dat is ongeveer 93 ton puur zilver, nu ca. €160 miljoen. Andere bronnen spreken van 120 tot 150 ton edelmetaal, tot ca. €260 miljoen. Het wrak is nooit gevonden, dus alles ligt er nog.",
       bronnen: [
@@ -167,6 +171,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €1 mrd (als het goud er was)",
       bodem: "ca. €1 mrd (als het goud er was)",
+      deel: 1,
       zekerheid: "laag",
       uitleg: "Volgens de verhalen had het schip ongeveer £1 miljoen aan gouden munten aan boord, 7 tot 10 ton goud. Tegen de goudprijs van nu is dat €0,8 tot 1,2 miljard. Of dat goud echt aan boord was, is nooit bewezen, en het wrak is niet zeker geïdentificeerd. Hogere bedragen (tot €6,4 miljard) tellen ook de verzamelwaarde van oude munten mee.",
       bronnen: [
@@ -204,6 +209,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €0,9 mrd",
       bodem: "ca. €0,9 mrd",
+      deel: 1,
       zekerheid: "laag",
       uitleg: "Historisch 7 tot 12 miljoen pesos. Als dat allemaal zilver was, is het nu €0,3 tot 0,5 miljard. Ik neem aan dat ongeveer een derde van de waarde in goud was; dan kom je op €0,6 tot 1,1 miljard. Er zijn pas een paar voorwerpen geborgen. De vaak genoemde $17 tot 20 miljard telt ook archeologische en verzamelwaarde mee.",
       bronnen: [
@@ -240,6 +246,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €120 mln (plus smaragden)",
       bodem: "ca. €50 mln (plus smaragden)",
+      deel: 0.42,
       zekerheid: "laag",
       uitleg: "De Atocha vervoerde ongeveer 40 ton goud en zilver en 32 kg smaragden. Daarvan is ca. 24 ton zilver geborgen, plus 125 goudbaren en -schijven. Wat nog mist is vooral het achterschip, met waarschijnlijk het meeste goud en de smaragden. De ruim 16 ton zilver die nog mist is nu ca. €28 miljoen waard; met het ontbrekende goud schat ik ca. €50 miljoen. Op veilingen brengen Atocha-voorwerpen veel meer op dan hun metaalwaarde.",
       bronnen: [
@@ -277,6 +284,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €60 mln",
       bodem: "ca. €20 mln",
+      deel: 0.33,
       zekerheid: "laag",
       uitleg: "Volgens het vrachtregister: 166.574 zilveren munten, ruim 550 zilverbaren en ruim 9.000 ounce goud (ca. 280 kg), samen ca. €60 miljoen. Spaanse duikers haalden in 1626 al een groot deel van het zilver op, en sinds 1980 is voor ruim $16 miljoen geborgen. Ik schat dat er nog ongeveer een derde ligt.",
       bronnen: [
@@ -313,6 +321,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €4,5 mln",
       bodem: "minder dan €0,5 mln",
+      deel: 0.1,
       zekerheid: "middel",
       uitleg: "Twaalf kisten zilveren munten ter waarde van 250.000 gulden, ongeveer 2,6 ton zilver. In 1629 werden tien kisten opgehaald, en bij latere opgravingen kwamen nog ruim 10.000 munten boven. Er ligt dus hooguit een klein deel. Als verzamelobject is een munt uit dit wrak wel veel meer waard dan het zilver.",
       bronnen: [
@@ -349,6 +358,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €1,4 mln",
       bodem: "ca. €1 mln",
+      deel: 0.75,
       zekerheid: "laag",
       uitleg: "Acht kisten zilveren munten ter waarde van 78.600 gulden, ongeveer 0,8 ton zilver. In 1963 werden ca. 10.000 munten geborgen. Hoeveel er nog ligt is niet bekend; ik schat ongeveer driekwart van het zilver. Dit is de metaalwaarde; op de verzamelmarkt zijn deze munten meer waard.",
       bronnen: [
@@ -386,6 +396,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €4,2 mln",
       bodem: "ca. €4 mln",
+      deel: 0.95,
       zekerheid: "middel",
       uitleg: "Ongeveer 248.000 gulden aan zilver, ca. 2,4 ton. Het WA Maritime Museum bewaart ca. 14.000 munten, vooral kleine schellingen. Dat is maar een paar procent van de lading. Het meeste ligt nog verspreid tussen de rotsen.",
       bronnen: [
@@ -422,6 +433,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €5 tot 10 mln",
       bodem: "ca. €1 mln",
+      deel: 0.13,
       zekerheid: "laag",
       uitleg: "De officiële lading was 300.000 gulden aan zilver en goud, nu ca. €5 miljoen. De bemanning had daarnaast veel zilver voor illegale handel, misschien evenveel. In 2005 werden ongeveer duizend zilverbaren opgehaald, en in 2017 en 2018 is het wrak opgegraven. Ik schat dat er nog maar weinig ligt; exacte cijfers zijn niet gepubliceerd.",
       bronnen: [
@@ -459,6 +471,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €700 mln",
       bodem: "ca. €600 mln",
+      deel: 0.9,
       zekerheid: "laag",
       uitleg: "De Lutine had £1 tot 1,2 miljoen (van 1799) aan goud en zilver aan boord. Hoeveel daarvan goud was, is niet bekend. Bij £1,2 miljoen is het nu €230 miljoen waard als alles zilver was, en €1 miljard als alles goud was. Ik reken met ongeveer 60% goud, dus ca. €700 miljoen. Tot nu toe is ongeveer een tiende geborgen. De bekende €90 tot 95 miljoen is het bedrag van 1799 omgerekend met inflatie, niet met de goudprijs van nu. De Rijksdienst voor het Cultureel Erfgoed schat dat er nog ca. €20 miljoen ligt.",
       bronnen: [
@@ -497,6 +510,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €9 mln",
       bodem: "ca. €9 mln",
+      deel: 1,
       zekerheid: "middel",
       uitleg: "Volgens de lading had het schip 2.576 ounce goud aan boord, 73 tot 80 kg. Tegen de goudprijs van nu is dat ca. €9 miljoen. Er is nooit iets van geborgen. Oudere claims van ‘$20 miljoen’ kwamen van iemand die bekendstond om fraude.",
       bronnen: [
@@ -535,6 +549,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €400 mln",
       bodem: "ca. €100 mln",
+      deel: 0.25,
       zekerheid: "laag",
       uitleg: "Het Smithsonian noemt $2,19 miljoen aan goud in 1857, ongeveer 3,3 ton, nu ca. €390 miljoen. Tel je het goud van passagiers mee, dan noemen sommige bronnen tot 9 ton (ca. €1 miljard). Volgens Live Science lag er in 2014 nog een zending van $93.000 en $250.000 tot $1,28 miljoen aan goud van passagiers (bedragen van 1857). Dat is nu €60 tot 240 miljoen; daarna is er nog wat geborgen.",
       bronnen: [
@@ -572,6 +587,7 @@ window.SCHEPEN = [
     schatting: {
       totaal: "ca. €4,3 mrd",
       bodem: "ca. €30 mln",
+      deel: 0.007,
       zekerheid: "hoog",
       uitleg: "3.211 goudbaren ter waarde van £5 miljoen (1917), ongeveer 36,6 ton puur goud. Dat is nu ca. €4,3 miljard. Er ontbreken nog ongeveer 22 baren, samen ca. 250 kg goud, nu ca. €30 miljoen.",
       bronnen: [
