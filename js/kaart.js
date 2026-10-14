@@ -318,13 +318,13 @@
     SCHEPEN.forEach(o => { if (o !== s) markers[o.id].setZIndexOffset(0); });
 
     toonDetails(s);
+    // De zoom blijft gelijk; de kaart schuift alleen zodat het wrak midden
+    // in het vrije stuk tussen de vloot (links) en de details (rechts) staat.
     const breed = window.innerWidth >= 900;
-    kaart.flyToBounds(L.latLngBounds(gevaren.concat(gepland)), {
-      paddingTopLeft: breed ? [320, 40] : [30, 30],
-      paddingBottomRight: breed ? [470, 40] : [30, 30],
-      maxZoom: 6,
-      duration: beweging() ? 0.9 : 0
-    });
+    const links = breed ? 300 : 0, rechts = breed ? 470 : 0;
+    const zoom = kaart.getZoom();
+    const midden = kaart.project(s.wrak, zoom).add([(rechts - links) / 2, 0]);
+    kaart.panTo(kaart.unproject(midden, zoom), { animate: beweging(), duration: 0.7 });
     zetAdres(s.id);
   }
 
