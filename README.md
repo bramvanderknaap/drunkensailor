@@ -12,6 +12,7 @@ waar het verging, het verhaal, de buit en wat er nog op de bodem ligt.
 | `css/style.css` | De opmaak: kleuren, lettertypes, indeling (ook de donkere modus). |
 | `js/schepen.js` | **Alle schepen en hun verhalen.** Dit is het bestand dat je het vaakst aanpast. |
 | `js/kaart.js` | Tekent de kaart, de markers, de routes en het paneel. |
+| `img/` | Een schilderij of foto per schip. |
 | `js/land.js` | De vorm van alle continenten (Natural Earth, vrij te gebruiken). |
 | `js/leaflet.js`, `css/leaflet.css` | Leaflet, de gratis bibliotheek die de kaart laat zoomen en slepen. |
 
@@ -23,6 +24,9 @@ waar het verging, het verhaal, de buit en wat er nog op de bodem ligt.
 4. Zoek de coördinaten van het wrak op (bijvoorbeeld via Google Maps: rechtsklik op
    een plek) en zet ze bij `wrak`. Noord en oost zijn positief, zuid en west negatief.
 5. Teken bij `lijn` de route met een paar punten en zet `WRAK` waar het schip verging.
+6. Wil je een afbeelding? Zet een `.jpg` in de map `img/` en vul `afbeelding` in, met
+   een link naar de bron. Gebruik alleen afbeeldingen die je mag gebruiken, bijvoorbeeld
+   van [Wikimedia Commons](https://commons.wikimedia.org) (publiek domein of CC-licentie).
 
 De lijst sorteert zichzelf op jaartal, en de filterknoppen tellen vanzelf mee.
 
@@ -38,6 +42,12 @@ Dubbelklik op `index.html`. De kaart werkt meteen in je browser.
    `https://<jouw-gebruikersnaam>.github.io/<naam-van-de-repository>/`.
 
 Elke keer dat je iets aanpast en het op `main` zet, werkt GitHub de site vanzelf bij.
+
+## Afbeeldingen
+
+Alle afbeeldingen komen van Wikimedia Commons. Bij elk schip staan de maker, de licentie
+en een link naar de bron. Van sommige schepen bestaat geen bekende afbeelding; daar staat
+een vergelijkbaar schip uit dezelfde tijd, met "Ter illustratie" in het onderschrift.
 
 ## Let op
 

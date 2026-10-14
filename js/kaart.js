@@ -1,6 +1,6 @@
 // ===================================================================
 //  DE KAART
-//  Dit bestand tekent de kaart, de markers, de routes en het paneel.
+//  Dit bestand tekent de kaart, de scheepjes, de routes en de panelen.
 //  De gegevens zelf staan in js/schepen.js.
 // ===================================================================
 
@@ -12,24 +12,40 @@
   const actieveStatussen = new Set(Object.keys(STATUSSEN));
   let gekozen = null;
 
+  // Een scheepje met drie masten, in de kleur van de tekst eromheen.
+  const SCHIP_SVG = `<svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor">
+    <path d="M2.5 21.5h27l-4 5.5H7z"/>
+    <path d="M27.5 21.5 31 16.5l.6.4-3.2 4.6z"/>
+    <rect x="9.3" y="6" width="1.1" height="15.5"/><rect x="15.5" y="3" width="1.1" height="18.5"/><rect x="21.6" y="6" width="1.1" height="15.5"/>
+    <path d="M6.5 8.2q3.4-1 6.8 0l-.4 4.6q-3-.9-6 0zM6 14q3.9-1.1 7.8 0l-.5 5.4q-3.4-1-6.8 0z"/>
+    <path d="M12.3 5q3.8-1.1 7.6 0l-.4 5q-3.4-1-6.8 0zM11.7 11.3q4.4-1.2 8.8 0l-.5 6.6q-3.9-1.1-7.8 0z"/>
+    <path d="M18.8 8.2q3.3-1 6.6 0l-.4 4.6q-2.9-.9-5.8 0zM18.4 14q3.7-1.1 7.4 0l-.5 5.4q-3.2-1-6.4 0z"/>
+    <path d="M16.6 3h3.2l-.8.9.8.9h-3.2z"/>
+  </svg>`;
+
   // ---------- kaart en ondergrond ----------
   const kaart = L.map("kaart", {
-    worldCopyJump: false,
     minZoom: 1,
-    maxZoom: 10,
+    maxZoom: 9,
     zoomSnap: 0.5,
+    zoomControl: false,
     attributionControl: true
-  }).setView([18, 20], window.innerWidth < 820 ? 1 : 2);
+  }).setView([18, 10], window.innerWidth < 900 ? 1 : 2.5);
+  L.control.zoom({ position: "topleft" }).addTo(kaart);
   kaart.attributionControl.setPrefix(false);
+  kaart.attributionControl.addAttribution("Kustlijnen: Natural Earth");
 
-  const zeekaart = L.layerGroup().addTo(kaart);
+  kaart.createPane("land").style.zIndex = 350;
+  kaart.createPane("route").style.zIndex = 420;
+  const landTekenaar = L.svg({ pane: "land", padding: 0.5 });
+  const routeTekenaar = L.svg({ pane: "route", padding: 0.5 });
 
-  // Rasterlijnen om de 30 graden, zoals op een zeekaart.
+  // Rasterlijnen om de 30 graden.
   for (let lon = -180; lon <= 540; lon += 30) {
-    L.polyline([[-85, lon], [85, lon]], { className: "raster", interactive: false }).addTo(zeekaart);
+    L.polyline([[-85, lon], [85, lon]], { className: "raster", interactive: false, renderer: landTekenaar }).addTo(kaart);
   }
   for (let lat = -60; lat <= 60; lat += 30) {
-    L.polyline([[lat, -180], [lat, 540]], { className: "raster" + (lat === 0 ? " evenaar" : ""), interactive: false }).addTo(zeekaart);
+    L.polyline([[lat, -180], [lat, 540]], { className: "raster" + (lat === 0 ? " evenaar" : ""), interactive: false, renderer: landTekenaar }).addTo(kaart);
   }
 
   // Het land, drie keer naast elkaar (360 graden verschoven), zodat
@@ -38,189 +54,196 @@
     L.geoJSON(window.LAND, {
       className: "land",
       interactive: false,
+      renderer: landTekenaar,
       coordsToLatLng: c => L.latLng(c[1], c[0] + verschuiving)
-    }).addTo(zeekaart);
+    }).addTo(kaart);
   });
-  kaart.attributionControl.addAttribution("Kustlijnen: Natural Earth");
 
-  // Op GitHub Pages kan ook de gewone OpenStreetMap-kaart geladen worden.
-  // We proberen één kaarttegel; lukt dat, dan komt er een keuzeknop.
-  const proef = new Image();
-  proef.onload = () => {
-    const osm = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 10,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
+  // ---------- routes ----------
+  // Elke route splitsen we in het stuk dat gevaren is (tot het wrak)
+  // en het stuk dat het schip nooit heeft gevaren.
+  function splitsRoute(s) {
+    const gevaren = [], gepland = [], havens = [];
+    let voorbijWrak = false;
+    s.lijn.forEach(p => {
+      if (p === "WRAK") { gevaren.push(s.wrak); gepland.push(s.wrak); voorbijWrak = true; return; }
+      (voorbijWrak ? gepland : gevaren).push([p[0], p[1]]);
+      if (p[2]) havens.push(p);
     });
-    L.control.layers({ "Zeekaart": zeekaart, "OpenStreetMap": osm }, null, { position: "topright" }).addTo(kaart);
-  };
-  proef.src = "https://tile.openstreetmap.org/0/0/0.png";
+    return { gevaren, gepland, havens };
+  }
 
-  // ---------- markers ----------
+  const achtergrondRoutes = {};
+  SCHEPEN.forEach(s => {
+    achtergrondRoutes[s.id] = L.polyline(splitsRoute(s).gevaren, { className: "route-achter", interactive: false, renderer: routeTekenaar });
+  });
   const routeLaag = L.layerGroup().addTo(kaart);
+
+  // ---------- scheepjes ----------
   const markers = {};
-  SCHEPEN.forEach(schip => {
-    const m = L.circleMarker(schip.wrak, {
-      radius: 7,
-      className: "schip-marker",
-      fillColor: STATUSSEN[schip.status].kleur,
-      fillOpacity: 1,
-      color: "#ffffff"
+  SCHEPEN.forEach(s => {
+    const st = STATUSSEN[s.status];
+    const m = L.marker(s.wrak, {
+      icon: L.divIcon({
+        className: "schip-icoon",
+        html: SCHIP_SVG,
+        iconSize: [28, 28],
+        iconAnchor: [14, 22]
+      }),
+      keyboard: true,
+      title: `${s.naam} (${s.jaar})`,
+      riseOnHover: true
     });
-    m.bindTooltip(`${schip.naam} (${schip.jaar})`, { direction: "top", offset: [0, -6] });
-    m.on("click", () => kies(schip.id));
-    markers[schip.id] = m;
+    m.on("add", () => {
+      const el = m.getElement();
+      el.style.setProperty("--kleur", st.kleur);
+      el.style.setProperty("--gloed", st.gloed);
+      el.classList.toggle("gekozen", !!gekozen && gekozen.id === s.id);
+    });
+    m.bindTooltip(`${esc(s.naam)} · ${s.jaar}`, { direction: "top", offset: [0, -20], className: "schip-tip" });
+    m.on("click", () => kies(s.id));
+    markers[s.id] = m;
   });
 
-  // ---------- legenda (filterknoppen) ----------
-  const legenda = document.getElementById("legenda");
+  // ---------- filters (bovenbalk) ----------
+  const filters = document.getElementById("filters");
   Object.entries(STATUSSEN).forEach(([sleutel, st]) => {
     const aantal = SCHEPEN.filter(s => s.status === sleutel).length;
     if (!aantal) return;
     const knop = document.createElement("button");
-    knop.className = "chip";
+    knop.className = "bron";
     knop.type = "button";
     knop.id = "filter-" + sleutel;
+    knop.title = st.naam;
+    knop.style.setProperty("--kleur", st.kleur);
     knop.setAttribute("aria-pressed", "true");
-    knop.innerHTML = `<span class="stip" style="--stip:${st.kleur}"></span>${esc(st.naam)} <span class="aantal">${aantal}</span>`;
+    knop.innerHTML = `${SCHIP_SVG}<span class="getal">${aantal}</span><span class="naam">${esc(st.kort)}</span>`;
     knop.addEventListener("click", () => {
       if (actieveStatussen.has(sleutel)) actieveStatussen.delete(sleutel);
       else actieveStatussen.add(sleutel);
       knop.setAttribute("aria-pressed", String(actieveStatussen.has(sleutel)));
-      tekenMarkers();
-      if (!gekozen) toonLijst();
+      teken();
     });
-    legenda.appendChild(knop);
+    filters.appendChild(knop);
   });
 
   function zichtbaar() {
-    return SCHEPEN.filter(s => actieveStatussen.has(s.status));
+    return SCHEPEN.filter(s => actieveStatussen.has(s.status) || (gekozen && gekozen.id === s.id));
   }
 
-  function tekenMarkers() {
-    SCHEPEN.forEach(s => {
-      const m = markers[s.id];
-      const tonen = actieveStatussen.has(s.status) || (gekozen && gekozen.id === s.id);
-      if (tonen && !kaart.hasLayer(m)) m.addTo(kaart);
-      if (!tonen && kaart.hasLayer(m)) kaart.removeLayer(m);
-    });
-  }
-
-  // ---------- paneel ----------
-  const paneel = document.getElementById("paneel");
-
-  function toonLijst() {
+  // ---------- alles opnieuw tekenen ----------
+  function teken() {
     const lijst = zichtbaar();
-    paneel.innerHTML = `
-      <div class="paneel-binnen">
-        <p class="label">${lijst.length} van ${SCHEPEN.length} schepen · op jaartal</p>
-        ${lijst.length ? `<ul class="lijst">${lijst.map(s => `
-          <li><button class="schip-knop" type="button" data-id="${s.id}">
-            <span class="jaar">${s.jaar}</span>
-            <span class="stip" style="--stip:${STATUSSEN[s.status].kleur}"></span>
-            <span class="naam">${esc(s.naam)}</span>
-            <span class="sub">${esc(s.land)} · ${esc(s.locatie)}</span>
-          </button></li>`).join("")}</ul>`
-          : `<p class="leeg">Geen schepen met deze status. Zet een filter bovenaan weer aan.</p>`}
-        <p class="voetnoot">Posities en routes zijn bij benadering getekend. Klik op een schip in de lijst of op de kaart voor het verhaal.</p>
-      </div>`;
-    paneel.querySelectorAll(".schip-knop").forEach(k => k.addEventListener("click", () => kies(k.dataset.id)));
-  }
-
-  function toonDetail(s) {
-    const st = STATUSSEN[s.status];
-    const feiten = [
-      ["Route", s.route],
-      ["Locatie", s.locatie],
-      ...s.feiten,
-      ["Buit", s.buit]
-    ];
-    paneel.innerHTML = `
-      <div class="paneel-binnen detail">
-        <button class="terug" type="button" id="terug">← Alle schepen</button>
-        <h2>${esc(s.naam)}</h2>
-        <p class="meta"><span class="jaar">${s.jaar}</span> · ${esc(s.land)}</p>
-        <span class="status"><span class="stip" style="--stip:${st.kleur}"></span>${esc(st.naam)}</span>
-        <p class="verhaal">${esc(s.verhaal)}</p>
-        <dl class="feiten">
-          ${feiten.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
-          <div><dt>Positie op de kaart (bij benadering)</dt><dd class="positie">${graden(s.wrak[0], "NB", "ZB")}, ${graden(s.wrak[1], "OL", "WL")}</dd></div>
-        </dl>
-        <p class="waarde"><strong>Waarde nog op de bodem</strong>${esc(s.waarde)}</p>
-        <p class="noot">${esc(s.noot)}</p>
-      </div>`;
-    document.getElementById("terug").addEventListener("click", () => kies(null));
-    paneel.scrollTop = 0;
-  }
-
-  // ---------- route tekenen ----------
-  function tekenRoute(s) {
-    routeLaag.clearLayers();
-    const gevaren = [], gepland = [];
-    let voorbijWrak = false;
-    s.lijn.forEach(p => {
-      if (p === "WRAK") {
-        gevaren.push(s.wrak); gepland.push(s.wrak); voorbijWrak = true; return;
-      }
-      (voorbijWrak ? gepland : gevaren).push([p[0], p[1]]);
-      if (p[2]) {
-        L.circleMarker([p[0], p[1]], { radius: 4, className: "haven", interactive: false })
-          .bindTooltip(p[2], { permanent: true, direction: "right", offset: [6, 0], className: "havennaam" })
-          .addTo(routeLaag);
-      }
+    SCHEPEN.forEach(s => {
+      const tonen = lijst.includes(s);
+      [markers[s.id], achtergrondRoutes[s.id]].forEach(laag => {
+        if (tonen && !kaart.hasLayer(laag)) laag.addTo(kaart);
+        if (!tonen && kaart.hasLayer(laag)) kaart.removeLayer(laag);
+      });
+      const el = markers[s.id].getElement();
+      if (el) el.classList.toggle("gekozen", !!gekozen && gekozen.id === s.id);
     });
-    L.polyline(gevaren, { className: "route-gevaren", interactive: false }).addTo(routeLaag);
-    if (gepland.length > 1) L.polyline(gepland, { className: "route-gepland", interactive: false }).addTo(routeLaag);
-    return L.latLngBounds(gevaren.concat(gepland));
+    document.getElementById("teller").textContent = lijst.length;
+    tekenVloot(lijst);
+  }
+
+  // ---------- de vloot (lijst) ----------
+  const vloot = document.getElementById("vloot");
+  function tekenVloot(lijst) {
+    vloot.innerHTML = lijst.length ? lijst.map(s => `
+      <li><button class="vloot-knop" type="button" data-id="${s.id}" aria-current="${!!gekozen && gekozen.id === s.id}" style="--kleur:${STATUSSEN[s.status].kleur}">
+        ${SCHIP_SVG}<span>${esc(s.naam)}</span><span class="jaar">${s.jaar}</span>
+      </button></li>`).join("")
+      : `<li class="leeg">Geen schepen met deze status.</li>`;
+    vloot.querySelectorAll(".vloot-knop").forEach(k => k.addEventListener("click", () => kies(k.dataset.id)));
+  }
+
+  // ---------- details ----------
+  const details = document.getElementById("details");
+  function toonDetails(s) {
+    const st = STATUSSEN[s.status];
+    const feiten = [["Route", s.route], ["Locatie", s.locatie], ...s.feiten,
+      ["Positie op de kaart (bij benadering)", `${graden(s.wrak[0], "NB", "ZB")}, ${graden(s.wrak[1], "OL", "WL")}`]];
+    const a = s.afbeelding;
+    details.innerHTML = `
+      ${a ? `<figure class="vak afbeelding">
+        <img src="${esc(a.src)}" alt="${esc(a.onderschrift)}"${a.positie ? ` style="object-position:${esc(a.positie)}"` : ""}>
+        <figcaption>${esc(a.onderschrift)}<br>${esc(a.maker)} · ${esc(a.licentie)} · <a href="${esc(a.bron)}" target="_blank" rel="noopener">bron</a></figcaption>
+      </figure>` : ""}
+      <div class="vak">
+        <h2>${esc(s.naam)}</h2>
+        <p class="meta">${s.jaar} · ${esc(s.land)}</p>
+        <div class="status" style="--kleur:${st.kleur}">${SCHIP_SVG}<span>${esc(st.naam)}</span></div>
+        <p class="verhaal">${esc(s.verhaal)}</p>
+      </div>
+      <div class="duo">
+        <div class="vak"><span class="label">buit</span><div class="balkje"></div><span class="groot">${esc(s.buit)}</span></div>
+        <div class="vak"><span class="label">nog op de bodem</span><div class="balkje goud"></div><span class="groot">${esc(s.waarde)}</span></div>
+      </div>
+      <dl class="vak feiten">
+        ${feiten.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
+      </dl>
+      <p class="vak noot">${esc(s.noot)}</p>
+      <button class="sluit" type="button" id="sluit"><span class="toets">Esc</span> verberg details</button>`;
+    const img = details.querySelector("img");
+    if (img) img.addEventListener("error", () => img.closest("figure").remove());
+    document.getElementById("sluit").addEventListener("click", () => kies(null));
+    details.hidden = false;
+    details.scrollTop = 0;
   }
 
   // ---------- een schip kiezen ----------
   function kies(id) {
-    if (gekozen) markers[gekozen.id].getElement()?.classList.remove("gekozen");
     gekozen = SCHEPEN.find(s => s.id === id) || null;
-    kaart.closePopup();
+    routeLaag.clearLayers();
+    teken();
+    document.getElementById("hint-plek").textContent = gekozen ? gekozen.naam.toLowerCase() : "zeekaart";
     if (!gekozen) {
-      routeLaag.clearLayers();
-      tekenMarkers();
-      toonLijst();
+      details.hidden = true;
       zetAdres("");
       return;
     }
     const s = gekozen;
-    tekenMarkers();
-    const m = markers[s.id];
-    m.bringToFront();
-    m.getElement()?.classList.add("gekozen");
-    const grenzen = tekenRoute(s);
-    kaart.flyToBounds(grenzen, { padding: [40, 40], maxZoom: 6, duration: beweging() ? 0.8 : 0 });
-    kaart.once("moveend", () => {
-      if (gekozen !== s) return;
-      L.popup({ offset: [0, -4], maxWidth: 280, autoPanPadding: [24, 24] })
-        .setLatLng(s.wrak)
-        .setContent(popupInhoud(s))
-        .openOn(kaart);
+    const { gevaren, gepland, havens } = splitsRoute(s);
+    L.polyline(gevaren, { className: "route-gevaren", interactive: false, renderer: routeTekenaar }).addTo(routeLaag);
+    if (gepland.length > 1) L.polyline(gepland, { className: "route-gepland", interactive: false, renderer: routeTekenaar }).addTo(routeLaag);
+    havens.forEach(p => {
+      L.circleMarker([p[0], p[1]], { radius: 4, className: "haven", interactive: false, renderer: routeTekenaar })
+        .bindTooltip(p[2], { permanent: true, direction: "right", offset: [8, 0], className: "havennaam" })
+        .addTo(routeLaag);
     });
-    toonDetail(s);
+    markers[s.id].setZIndexOffset(1000);
+    SCHEPEN.forEach(o => { if (o !== s) markers[o.id].setZIndexOffset(0); });
+
+    toonDetails(s);
+    const breed = window.innerWidth >= 900;
+    kaart.flyToBounds(L.latLngBounds(gevaren.concat(gepland)), {
+      paddingTopLeft: breed ? [320, 40] : [30, 30],
+      paddingBottomRight: breed ? [470, 40] : [30, 30],
+      maxZoom: 6,
+      duration: beweging() ? 0.9 : 0
+    });
     zetAdres(s.id);
   }
 
-  function popupInhoud(s) {
-    const st = STATUSSEN[s.status];
-    const div = document.createElement("div");
-    div.innerHTML = `
-      <h3>${esc(s.naam)}</h3>
-      <p class="klein">${s.jaar} · ${esc(s.land)} · ${esc(st.naam)}</p>
-      <p><strong>Buit:</strong> ${esc(s.buit)}</p>
-      <p><strong>Nog op de bodem:</strong> ${esc(s.waarde)}</p>
-      <button type="button">Lees het hele verhaal</button>`;
-    div.querySelector("button").addEventListener("click", () => {
-      paneel.scrollIntoView({ behavior: beweging() ? "smooth" : "auto" });
-    });
-    return div;
-  }
+  // Toetsen: pijltjes bladeren door de vloot, Esc sluit de details.
+  document.addEventListener("keydown", e => {
+    if (e.target.closest && e.target.closest("input, textarea")) return;
+    if (e.key === "Escape" && gekozen) { kies(null); return; }
+    if (e.key !== "ArrowDown" && e.key !== "ArrowUp") return;
+    if (e.target.closest && e.target.closest(".leaflet-container")) return;
+    const lijst = zichtbaar();
+    if (!lijst.length) return;
+    e.preventDefault();
+    const i = gekozen ? lijst.indexOf(gekozen) : -1;
+    const volgende = e.key === "ArrowDown" ? (i + 1) % lijst.length : (i - 1 + lijst.length) % lijst.length;
+    kies(lijst[volgende].id);
+    vloot.querySelector(`[data-id="${lijst[volgende].id}"]`)?.focus({ preventScroll: false });
+  });
 
   // ---------- hulpjes ----------
   function maakId(naam) {
-    return naam.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+    return naam.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
   }
   function esc(t) {
     return String(t).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -237,8 +260,7 @@
   }
 
   // ---------- start ----------
-  tekenMarkers();
   const begin = location.hash.slice(1);
   if (begin && SCHEPEN.some(s => s.id === begin)) kies(begin);
-  else toonLijst();
+  else teken();
 })();

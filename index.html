@@ -7,21 +7,32 @@
   <meta name="description" content="Interactieve wereldkaart van beroemde gezonken schatschepen, hun route, verhaal en buit.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=Spectral+SC:wght@600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300&display=swap">
   <link rel="stylesheet" href="css/leaflet.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="kop">
-    <div>
-      <h1>Gezonken Schatschepen</h1>
-      <p>Waar ze vergingen, waar ze heen gingen en wat er nog op de bodem ligt.</p>
+  <header class="balk">
+    <h1 class="titel">gezonken schatschepen</h1>
+    <div class="voorraad" id="filters" aria-label="Filter op status"></div>
+    <div class="teller" title="Wrakken op de kaart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 9l8 13 8-13-8-7Zm0 3.2L16.9 9H7.1L12 5.2Z"/></svg>
+      <span id="teller">15</span>
     </div>
-    <div class="legenda" id="legenda" aria-label="Filter op status"></div>
   </header>
-  <main class="hoofd">
-    <div id="kaart" aria-label="Wereldkaart met wrakken"></div>
-    <aside class="paneel" id="paneel" aria-live="polite"></aside>
+
+  <main class="scherm">
+    <div id="kaart" aria-label="Zeekaart met wrakken"></div>
+    <div class="vignet" aria-hidden="true"></div>
+
+    <nav class="vloot" aria-label="De vloot">
+      <p class="kopje">de vloot</p>
+      <ul id="vloot"></ul>
+    </nav>
+
+    <section class="details" id="details" aria-live="polite" hidden></section>
+
+    <p class="hint"><span class="toets">Esc</span> terug <span class="streep">\</span> <span class="hint-plek" id="hint-plek">zeekaart</span></p>
   </main>
 
   <script src="js/leaflet.js"></script>

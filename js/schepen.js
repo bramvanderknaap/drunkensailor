@@ -13,14 +13,16 @@
 //          daarna gestippeld (het deel dat het schip nooit voer).
 //  status: een van: vermist, onzeker, gevonden, deels, geborgen
 //          (zie STATUSSEN hieronder voor de kleuren en namen).
+//  afbeelding: (mag weg) een schilderij of foto in de map img/, met
+//          onderschrift, maker, licentie en een link naar de bron.
 // ===================================================================
 
 window.STATUSSEN = {
-  vermist:  { naam: "Niet teruggevonden",                  kleur: "#c2412d" },
-  onzeker:  { naam: "Wrak niet definitief geïdentificeerd", kleur: "#8a5cc2" },
-  gevonden: { naam: "Ontdekt, vrijwel niet geborgen",      kleur: "#d9822b" },
-  deels:    { naam: "Ontdekt, gedeeltelijk geborgen",      kleur: "#c9a227" },
-  geborgen: { naam: "Ontdekt, vrijwel volledig geborgen",  kleur: "#2f9e7e" }
+  vermist:  { naam: "Niet teruggevonden",                   kort: "vermist",        kleur: "#ff6150", gloed: "rgba(255,97,80,.55)" },
+  onzeker:  { naam: "Wrak niet definitief geïdentificeerd", kort: "onzeker",        kleur: "#c9a2ff", gloed: "rgba(201,162,255,.5)" },
+  gevonden: { naam: "Ontdekt, vrijwel niet geborgen",       kort: "gevonden",       kleur: "#ffa94d", gloed: "rgba(255,169,77,.5)" },
+  deels:    { naam: "Ontdekt, gedeeltelijk geborgen",       kort: "deels geborgen", kleur: "#8cc0ff", gloed: "rgba(140,192,255,.5)" },
+  geborgen: { naam: "Ontdekt, vrijwel volledig geborgen",   kort: "geborgen",       kleur: "#f5f2e6", gloed: "rgba(245,242,230,.45)" }
 };
 
 const WRAK = "WRAK";
@@ -38,6 +40,14 @@ window.SCHEPEN = [
     feiten: [],
     waarde: "Onbekend. Schattingen van miljarden dollars circuleren, maar zijn niet onderbouwd met een betrouwbare inventaris.",
     noot: "Het wrak is nooit overtuigend geïdentificeerd. Bovendien is onzeker hoeveel van de oorspronkelijke lading na de schipbreuk kon worden gered.",
+    afbeelding: {
+      src: "img/flor-do-mar.jpg",
+      onderschrift: "De Flor de la Mar, getekend in de Roteiro de Malaca (16e eeuw)",
+      maker: "Roteiro de Malaca",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Frol_de_la_mar_in_roteiro_de_malaca.jpeg",
+      positie: "50% 40%"
+    },
     wrak: [4.5, 98.6],
     lijn: [[2.19, 102.25, "Malakka"], [3.3, 100.6], WRAK, [5.9, 95.1], [5.8, 80.6], [7.6, 77.1], [15.49, 73.82, "Goa"]]
   },
@@ -53,6 +63,14 @@ window.SCHEPEN = [
     feiten: [["Historische waarde", "In een document uit 1641 werd het verlies op minstens £400.000 geschat."]],
     waarde: "Onbekend. Een moderne schatting van £150–300 miljoen is gepubliceerd, maar is geen geverifieerde taxatie.",
     noot: "Een van de interessantste nog vermiste historische schatschepen in Europese wateren.",
+    afbeelding: {
+      src: "img/merchant-royal.jpg",
+      onderschrift: "Ter illustratie: Engelse koopvaardijschepen uit dezelfde eeuw (1685)",
+      maker: "Isaac Sailmaker",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Two_Views_of_an_East_Indiaman_of_the_Time_of_King_William_III_RMG_BHC1676.tiff",
+      positie: "50% 35%"
+    },
     wrak: [49.85, -6.4],
     lijn: [[36.53, -6.3, "Cádiz"], [36.9, -9.4], [43.2, -10.0], [48.3, -6.4], WRAK, [50.0, -4.0], [50.5, -1.5], [51.0, 1.5], [51.05, 2.37, "Vlaanderen"]]
   },
@@ -68,6 +86,13 @@ window.SCHEPEN = [
     feiten: [],
     waarde: "Onbekend. Er is geen betrouwbaar vastgesteld bedrag voor de resterende lading.",
     noot: "Spanje en Mexico werken samen aan archeologisch onderzoek naar het verdwenen galjoen.",
+    afbeelding: {
+      src: "img/juncal.jpg",
+      onderschrift: "Ter illustratie: een Spaans galjoen uit dezelfde tijd",
+      maker: "Cornelis Verbeeck",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Spanish_Galleon_Firing_its_Cannon.jpg"
+    },
     wrak: [21.3, -91.4],
     lijn: [[19.2, -96.13, "Veracruz"], [20.6, -94.0], WRAK, [22.6, -86.6], [23.14, -82.36, "Havana"], [24.3, -80.6], [25.6, -79.9], [28.5, -79.6], [32.5, -75.5], [36.0, -55.0], [38.5, -28.0], [36.9, -9.4], [36.53, -6.3, "Cádiz"]]
   },
@@ -83,6 +108,13 @@ window.SCHEPEN = [
     feiten: [["Vermeende historische waarde", "Ongeveer £1 miljoen."]],
     waarde: "Niet vast te stellen.",
     noot: "Let op: zowel de precieze hoeveelheid goud aan boord als de identificatie van het onderzochte wrak zijn onzeker. In 2001 werd een mogelijke wraklocatie ontdekt, maar dat leverde geen bevestigde goudschat op.",
+    afbeelding: {
+      src: "img/hms-sussex.jpg",
+      onderschrift: "Model van de HMS Sussex",
+      maker: "Maker: zie bron",
+      licentie: "CC BY-SA 2.5",
+      bron: "https://commons.wikimedia.org/wiki/File:HMS_Sussex_(80)_model_starboard_broadside.jpg"
+    },
     wrak: [36.0, -5.25],
     lijn: [[50.78, -1.1, "Engeland"], [50.0, -3.5], [48.5, -6.0], [43.2, -10.0], [36.9, -9.4], [35.95, -6.2], WRAK, [36.8, 0.0], [38.5, 6.0, "Middellandse Zee"]]
   },
@@ -98,6 +130,13 @@ window.SCHEPEN = [
     feiten: [["Diepte", "Circa 600 meter."], ["Historische waarde", "Naar schatting 7–12 miljoen Spaanse pesos."]],
     waarde: "Moderne schattingen lopen in de miljarden dollars, maar de werkelijke marktwaarde is niet vastgesteld.",
     noot: "Het wrak werd in 2015 ontdekt. Colombia heeft inmiddels enkele archeologische voorwerpen geborgen, maar de hoofdcollectie bevindt zich nog onder water.",
+    afbeelding: {
+      src: "img/san-jose.jpg",
+      onderschrift: "De Slag bij Barú (Wager's Action, 1708), waarin de San José ontplofte en zonk",
+      maker: "Samuel Scott (ca. 1743)",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Wager%27s_Action_off_Cartagena_28_May_1708.jpg"
+    },
     wrak: [10.15, -75.85],
     lijn: [[9.55, -79.65, "Portobelo"], [9.95, -77.5], WRAK, [10.42, -75.6, "Cartagena"], [12.8, -77.6], [18.4, -82.4], [21.6, -85.2], [23.14, -82.36, "Havana"], [24.3, -80.6], [25.6, -79.9], [28.5, -79.6], [32.5, -75.5], [36.0, -55.0], [38.5, -28.0], [36.9, -9.4], [36.53, -6.3, "Cádiz"]]
   },
@@ -113,6 +152,13 @@ window.SCHEPEN = [
     feiten: [["Oorspronkelijke lading", "Onder meer 1.038 zilverbaren en 125 goudbaren of gouden schijven, volgens het Mel Fisher Maritime Museum."]],
     waarde: "Onbekend. De bergingsorganisatie verwacht nog aanzienlijke vondsten.",
     noot: "In juni 2026 werd opnieuw een zilverbaar van ongeveer 10 kg gevonden. Dit bevestigt dat er nog waardevolle voorwerpen aanwezig zijn.",
+    afbeelding: {
+      src: "img/atocha.jpg",
+      onderschrift: "Ter illustratie: de Galeón Andalucía, een replica van een Spaans galjoen",
+      maker: "Cephas",
+      licentie: "CC BY-SA 4.0",
+      bron: "https://commons.wikimedia.org/wiki/File:Gale%C3%B3n_Andaluc%C3%ADa_Quebec_City_02.jpg"
+    },
     wrak: [24.45, -82.25],
     lijn: [[9.55, -79.65, "Portobelo"], [9.95, -77.5], [10.42, -75.6, "Cartagena"], [12.8, -77.6], [18.4, -82.4], [21.6, -85.2], [23.14, -82.36, "Havana"], WRAK, [24.3, -80.6], [25.6, -79.9], [28.5, -79.6], [32.5, -75.5], [36.0, -55.0], [38.5, -28.0], [36.9, -9.4], [36.53, -6.3, "Spanje"]]
   },
@@ -128,6 +174,13 @@ window.SCHEPEN = [
     feiten: [],
     waarde: "Onbekend.",
     noot: "Bij eerdere expedities zijn miljoenen dollars aan kostbaarheden geborgen. De zoektocht naar overige delen van de lading gaat door.",
+    afbeelding: {
+      src: "img/santa-margarita.jpg",
+      onderschrift: "Ter illustratie: Spaanse galjoenen uit dezelfde tijd (Slag bij Cádiz, 1608)",
+      maker: "Aert Anthoniszoon",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Aert_Anthoniszoon,_Slag_bij_Cadix_(The_Battle_of_Cadix,_1608).png"
+    },
     wrak: [24.55, -82.05],
     lijn: [[9.55, -79.65, "Portobelo"], [9.95, -77.5], [10.42, -75.6, "Cartagena"], [12.8, -77.6], [18.4, -82.4], [21.6, -85.2], [23.14, -82.36, "Havana"], WRAK, [24.3, -80.6], [25.6, -79.9], [28.5, -79.6], [32.5, -75.5], [36.0, -55.0], [38.5, -28.0], [36.9, -9.4], [36.53, -6.3, "Spanje"]]
   },
@@ -143,6 +196,13 @@ window.SCHEPEN = [
     feiten: [["Historische berging", "In 1629 werden tien van de twaalf geldkisten teruggehaald."]],
     waarde: "Onbekend. Bij latere opgravingen zijn ook munten uit de achtergebleven kisten gevonden.",
     noot: "Het wrak is uitgebreid archeologisch onderzocht en beschermd.",
+    afbeelding: {
+      src: "img/batavia.jpg",
+      onderschrift: "De replica van de Batavia in Lelystad",
+      maker: "Gouwenaar",
+      licentie: "CC0",
+      bron: "https://commons.wikimedia.org/wiki/File:20140612_Batavia_replica2_Lelystad.jpg"
+    },
     wrak: [-28.49, 113.79],
     lijn: [[53.05, 4.8, "Texel"], [51.2, 1.8], [49.9, -3.0], [48.3, -6.4], [43.0, -11.0], [28.0, -17.5], [15.0, -25.0], [0.0, -25.0], [-20.0, -28.0], [-33.0, -10.0], [-34.9, 12.0], [-33.9, 18.42, "Kaap de Goede Hoop"], [-37.5, 40.0], [-37.5, 90.0], [-31.0, 108.0], WRAK, [-22.0, 111.5], [-10.0, 107.0], [-6.0, 105.7], [-6.12, 106.8, "Batavia"]]
   },
@@ -158,6 +218,14 @@ window.SCHEPEN = [
     feiten: [],
     waarde: "Onbekend.",
     noot: "Er zijn inmiddels meer dan 8.500 zilveren munten geborgen. Dat betekent niet dat de volledige oorspronkelijke lading is teruggevonden.",
+    afbeelding: {
+      src: "img/vergulde-draeck.jpg",
+      onderschrift: "Tekening van hoe de Vergulde Draeck er vermoedelijk uitzag",
+      maker: "Steve Caffery, Gilt Dragon Research Group",
+      licentie: "CC BY-SA 4.0",
+      bron: "https://commons.wikimedia.org/wiki/File:Gilt_Dragon_2.jpg",
+      positie: "50% 70%"
+    },
     wrak: [-31.22, 115.32],
     lijn: [[53.05, 4.8, "Texel"], [51.2, 1.8], [49.9, -3.0], [48.3, -6.4], [43.0, -11.0], [28.0, -17.5], [15.0, -25.0], [0.0, -25.0], [-20.0, -28.0], [-33.0, -10.0], [-34.9, 12.0], [-33.9, 18.42, "Kaap de Goede Hoop"], [-37.5, 40.0], [-37.5, 90.0], [-33.0, 112.0], WRAK, [-22.0, 111.5], [-10.0, 107.0], [-6.0, 105.7], [-6.12, 106.8, "Batavia"]]
   },
@@ -173,6 +241,13 @@ window.SCHEPEN = [
     feiten: [["Historische waarde", "Ongeveer 250.000 gulden aan zilver."]],
     waarde: "Onbekend.",
     noot: "Het wrak is bijzonder moeilijk bereikbaar. Er zijn nog archeologische resten aanwezig en de vindplaats is streng beschermd.",
+    afbeelding: {
+      src: "img/zuytdorp.jpg",
+      onderschrift: "Ter illustratie: het VOC-retourschip Popkensburg van de Kamer Middelburg (1775)",
+      maker: "Anonieme schilder, Het Scheepvaartmuseum",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Anoniem_(schilder)_-_Het_retourschip_Popkensburg_van_de_Kamer_Middelburg_van_de_VOC_-_A.1907_-_Het_Scheepvaartmuseum.jpg"
+    },
     wrak: [-27.18, 113.92],
     lijn: [[53.05, 4.8, "Nederland"], [51.2, 1.8], [49.9, -3.0], [48.3, -6.4], [43.0, -11.0], [28.0, -17.5], [15.0, -25.0], [0.0, -25.0], [-20.0, -28.0], [-33.0, -10.0], [-34.9, 12.0], [-33.9, 18.42, "Kaap de Goede Hoop"], [-37.5, 40.0], [-37.5, 90.0], [-30.0, 110.0], WRAK, [-22.0, 111.5], [-10.0, 107.0], [-6.0, 105.7], [-6.12, 106.8, "Batavia"]]
   },
@@ -188,6 +263,13 @@ window.SCHEPEN = [
     feiten: [["Diepte", "Ongeveer 20–25 meter."], ["Oorspronkelijke waarde", "De bekende lading was meer dan 300.000 gulden waard."]],
     waarde: "Onbekend.",
     noot: "Archeologen hebben duizenden voorwerpen geborgen, waaronder zilver dat bemanningsleden vermoedelijk illegaal wilden verhandelen.",
+    afbeelding: {
+      src: "img/rooswijk.jpg",
+      onderschrift: "Ter illustratie: een Oost-Indiëvaarder voor Hoorn (vóór 1686)",
+      maker: "Lorenzo a Castro",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:A_Castro,_Lorenzo_-_A_Dutch_East-Indiaman_off_Hoorn_-_Google_Art_Project.jpg"
+    },
     wrak: [51.27, 1.55],
     lijn: [[53.05, 4.8, "Texel"], [52.0, 3.0], WRAK, [51.0, 1.6], [49.9, -3.0], [48.3, -6.4], [43.0, -11.0], [28.0, -17.5], [15.0, -25.0], [0.0, -25.0], [-20.0, -28.0], [-33.0, -10.0], [-34.9, 12.0], [-33.9, 18.42, "Kaap de Goede Hoop"], [-37.5, 40.0], [-37.5, 90.0], [-31.0, 108.0], [-22.0, 111.5], [-10.0, 107.0], [-6.0, 105.7], [-6.12, 106.8, "Batavia"]]
   },
@@ -203,6 +285,13 @@ window.SCHEPEN = [
     feiten: [["Historische waarde", "Volgens Lloyd's ongeveer £1 miljoen."]],
     waarde: "Onbekend, maar een aanzienlijk deel van de oorspronkelijke lading is nooit verantwoord als geborgen.",
     noot: "De Lutine ligt in een gebied met sterk bewegende zandbanken. De beroemde scheepsbel werd in de negentiende eeuw geborgen.",
+    afbeelding: {
+      src: "img/hms-lutine.jpg",
+      onderschrift: "De Lutine waait in de nacht van 9 op 10 oktober 1799 op de kust van Terschelling",
+      maker: "Onbekende maker",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:HMS_Lutine_being_blown_ashore_onto_Terschelling_where_she_was_wrecked_on_the_night_of_9-10_October_1799.jpg"
+    },
     wrak: [53.33, 5.05],
     lijn: [[52.6, 1.75, "Great Yarmouth"], [53.1, 3.5], WRAK, [53.75, 6.5], [54.0, 8.3], [53.55, 9.97, "Hamburg"]]
   },
@@ -218,6 +307,13 @@ window.SCHEPEN = [
     feiten: [["Vermoedelijke hoeveelheid goud", "2.576 troy ounce, ongeveer 80,1 kg."]],
     waarde: "Niet vastgesteld; zelfs de aanwezigheid van de volledige opgegeven hoeveelheid goud is niet definitief bevestigd.",
     noot: "Er zijn tientallen zoekpogingen ondernomen, maar het wrak is nog steeds niet overtuigend gevonden.",
+    afbeelding: {
+      src: "img/general-grant.jpg",
+      onderschrift: "Het wrak van de General Grant bij de Auckland Islands (Illustrated London News, 1868)",
+      maker: "William Tibbits",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Nla.obj-136180447_(cropped).png"
+    },
     wrak: [-50.6, 165.95],
     // Deze route steekt de datumgrens over: lengtegraden boven 180 lopen
     // door in de Grote Oceaan (293 = 67° west, Kaap Hoorn).
@@ -235,6 +331,13 @@ window.SCHEPEN = [
     feiten: [["Diepte", "Ongeveer 2.400 meter."], ["Historische waarde", "Volgens het Smithsonian ongeveer $2,19 miljoen aan goud bij het zinken."]],
     waarde: "Onbekend.",
     noot: "Er zijn grote hoeveelheden goud geborgen, onder meer in 1988 en 2014. De volledige oorspronkelijke hoeveelheid is moeilijk te reconstrueren.",
+    afbeelding: {
+      src: "img/ss-central-america.jpg",
+      onderschrift: "Het zinken van de Central America (1857)",
+      maker: "J. Childs",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Wreck_of_the_Central_America.jpg"
+    },
     wrak: [31.6, -77.0],
     lijn: [[9.36, -79.9, "Colón"], [12.8, -80.6], [18.4, -82.4], [21.6, -85.2], [23.14, -82.36, "Havana"], [24.3, -80.6], [25.6, -79.9], [28.5, -79.6], WRAK, [35.0, -74.8], [40.45, -73.9, "New York"]]
   },
@@ -250,6 +353,13 @@ window.SCHEPEN = [
     feiten: [["Diepte", "Ongeveer 40 meter."], ["Bijzonder", "Een aanzienlijk deel van het goud lag onder het sediment begraven."]],
     waarde: "Volgens verschillende bergingsverslagen ontbreken nog ongeveer 20–22 goudbaren. Het exacte aantal is niet eenduidig.",
     noot: "Dit is een van de weinige gevallen waarbij de hoeveelheid ontbrekend goud redelijk nauwkeurig uit bergingsverslagen kan worden afgeleid.",
+    afbeelding: {
+      src: "img/ss-laurentic.jpg",
+      onderschrift: "De SS Laurentic, vóór 1917",
+      maker: "Onbekende fotograaf",
+      licentie: "Publiek domein",
+      bron: "https://commons.wikimedia.org/wiki/File:Laurentic,_hq.jpg"
+    },
     wrak: [55.32, -7.6],
     lijn: [[53.39, -3.03, "Birkenhead"], [53.6, -3.7], [54.4, -5.1], [55.25, -6.4], WRAK, [55.6, -15.0], [50.0, -40.0], [44.64, -63.57, "Canada (Halifax)"]]
   }
