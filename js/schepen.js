@@ -19,6 +19,9 @@
 //          van nu, bodem = wat er vermoedelijk nog op de zeebodem ligt,
 //          zekerheid = zeer laag, laag, middel of hoog. In uitleg staat
 //          hoe het berekend is, in bronnen de links waar het vandaan komt.
+//  diepte: meters = hoe diep het wrak (waarschijnlijk) ligt, voor de
+//          dieptemeter (null als niemand het weet), kort = wat er groot
+//          staat, tekst = uitleg, bron = [titel, link].
 // ===================================================================
 
 // De prijzen waarmee de schattingen zijn berekend (metaalwaarde).
@@ -59,6 +62,12 @@ window.SCHEPEN = [
         ["The Daily Beast: ‘$2.6 billion treasure’", "https://thedailybeast.com/the-dollar26-billion-treasure-still-lost-at-the-bottom-of-the-sea"]
       ]
     },
+    diepte: {
+      meters: null,
+      kort: "onbekend",
+      tekst: "Het schip liep op een zandbank voor Sumatra, dus het ligt waarschijnlijk in ondiep water, onder zand en modder.",
+      bron: ["Wikipedia: Flor de la Mar", "https://en.wikipedia.org/wiki/Flor_de_la_Mar"]
+    },
     noot: "Het wrak is nooit overtuigend geïdentificeerd. Bovendien is onzeker hoeveel van de oorspronkelijke lading na de schipbreuk kon worden gered.",
     afbeelding: {
       src: "img/flor-do-mar.jpg",
@@ -89,6 +98,12 @@ window.SCHEPEN = [
       bronnen: [
         ["Wikipedia: Royal Merchant", "https://en.wikipedia.org/wiki/Royal_Merchant"]
       ]
+    },
+    diepte: {
+      meters: 90,
+      kort: "ca. 90 m",
+      tekst: "Het wrak is niet gevonden; dit is de diepte van het gebied waar gezocht wordt.",
+      bron: ["Divernet: Diver to check out ‘Eldorado of the Seas’", "https://divernet.com/scuba-news/diver-to-check-out-eldorado-of-the-seas"]
     },
     noot: "Een van de interessantste nog vermiste historische schatschepen in Europese wateren.",
     afbeelding: {
@@ -122,6 +137,12 @@ window.SCHEPEN = [
         ["IAL: Renewed search for the Juncal", "https://ial.uk.com/renewed-search-for-one-of-spains-greatest-treasure-galleons/"]
       ]
     },
+    diepte: {
+      meters: null,
+      kort: "onbekend",
+      tekst: "Het wrak is nooit gevonden; er wordt gezocht in de Golf van Campeche.",
+      bron: ["Acción Cultural Española: de zoektocht naar de Juncal", "https://www.accioncultural.es/en/the-new-spain-fleet-and-the-search-for-the-galleon-nuestra-senora-del-juncal"]
+    },
     noot: "Spanje en Mexico werken samen aan archeologisch onderzoek naar het verdwenen galjoen.",
     afbeelding: {
       src: "img/juncal.jpg",
@@ -153,6 +174,12 @@ window.SCHEPEN = [
         ["The Olive Press (2026)", "https://www.theolivepress.es/spain-news/2026/08/11/gibraltar-treasure-ship-search/"]
       ]
     },
+    diepte: {
+      meters: 800,
+      kort: "ca. 800 m",
+      tekst: "Als het gevonden wrak echt de Sussex is; dat is nooit bevestigd.",
+      bron: ["Wikipedia: HMS Sussex (1693)", "https://en.wikipedia.org/wiki/HMS_Sussex_(1693)"]
+    },
     noot: "Let op: zowel de precieze hoeveelheid goud aan boord als de identificatie van het onderzochte wrak zijn onzeker. In 2001 werd een mogelijke wraklocatie ontdekt, maar dat leverde geen bevestigde goudschat op.",
     afbeelding: {
       src: "img/hms-sussex.jpg",
@@ -173,7 +200,7 @@ window.SCHEPEN = [
     locatie: "Caribische Zee, voor Cartagena (Colombia).",
     verhaal: "Het galjoen werd tijdens de Spaanse Successieoorlog aangevallen door Britse oorlogsschepen en zonk in de Slag bij Barú.",
     buit: "Goud, zilver, edelstenen en handelswaar.",
-    feiten: [["Diepte", "Circa 600 meter."], ["Historische waarde", "Naar schatting 7–12 miljoen Spaanse pesos."]],
+    feiten: [["Historische waarde", "Naar schatting 7–12 miljoen Spaanse pesos."]],
     schatting: {
       totaal: "ca. €0,9 mrd",
       bodem: "ca. €0,9 mrd",
@@ -182,6 +209,12 @@ window.SCHEPEN = [
       bronnen: [
         ["Wikipedia: San José (galjoen)", "https://en.wikipedia.org/wiki/Spanish_galleon_San_Jos%C3%A9"]
       ]
+    },
+    diepte: {
+      meters: 600,
+      kort: "ca. 600 m",
+      tekst: "Te diep voor duikers; alleen robots kunnen erbij.",
+      bron: ["Quartz: Colombia’s deep-water expedition", "https://qz.com/colombia-will-send-deep-water-expedition-to-explore-300-1851283140"]
     },
     noot: "Het wrak werd in 2015 ontdekt. Colombia heeft inmiddels enkele archeologische voorwerpen geborgen, maar de hoofdcollectie bevindt zich nog onder water.",
     afbeelding: {
@@ -214,6 +247,12 @@ window.SCHEPEN = [
         ["Maritime Executive", "https://www.maritime-executive.com/editorials/the-world-s-most-valuable-shipwreck-the-nuestra-senora-de-atocha"]
       ]
     },
+    diepte: {
+      meters: 17,
+      kort: "15 tot 17 m",
+      tekst: "De grote vondst van 1985 lag op 17 meter (55 voet).",
+      bron: ["Cayman Compass: in Mel Fisher’s footsteps", "https://www.caymancompass.com/2010/07/19/treasure-hunters-follow-in-mel-fishers-footsteps/"]
+    },
     noot: "In juni 2026 werd opnieuw een zilverbaar van ongeveer 10 kg gevonden. Dit bevestigt dat er nog waardevolle voorwerpen aanwezig zijn.",
     afbeelding: {
       src: "img/atocha.jpg",
@@ -243,6 +282,12 @@ window.SCHEPEN = [
       bronnen: [
         ["Wikipedia: Santa Margarita", "https://en.wikipedia.org/wiki/Santa_Margarita_(shipwreck)"]
       ]
+    },
+    diepte: {
+      meters: 8,
+      kort: "ca. 8 m",
+      tekst: "Spaanse duikers konden er in 1626 al bij met een duikklok.",
+      bron: ["Diving Almanac: Santa Margarita", "https://divingalmanac.com/spanish-salvage-wreck-santa-margarita"]
     },
     noot: "Bij eerdere expedities zijn miljoenen dollars aan kostbaarheden geborgen. De zoektocht naar overige delen van de lading gaat door.",
     afbeelding: {
@@ -274,6 +319,12 @@ window.SCHEPEN = [
         ["World History Encyclopedia: Wreck of the Batavia", "https://www.worldhistory.org/article/2391/wreck-of-the-batavia/"]
       ]
     },
+    diepte: {
+      meters: 6,
+      kort: "ca. 6 m",
+      tekst: "Op het Morning Reef, bij de Houtman Abrolhos.",
+      bron: ["World History Encyclopedia: Wreck of the Batavia", "https://www.worldhistory.org/article/2391/wreck-of-the-batavia/"]
+    },
     noot: "Het wrak is uitgebreid archeologisch onderzocht en beschermd.",
     afbeelding: {
       src: "img/batavia.jpg",
@@ -303,6 +354,12 @@ window.SCHEPEN = [
       bronnen: [
         ["Wikipedia: Vergulde Draeck", "https://en.wikipedia.org/wiki/Vergulde_Draeck"]
       ]
+    },
+    diepte: {
+      meters: 8,
+      kort: "2 tot 8 m",
+      tekst: "In gaten en grotten in een rif, ruim 5 km uit de kust.",
+      bron: ["Diving WA Wrecks: Vergulde Draeck", "https://www.divingwawrecks.com/verguldedraeck"]
     },
     noot: "Er zijn inmiddels meer dan 8.500 zilveren munten geborgen. Dat betekent niet dat de volledige oorspronkelijke lading is teruggevonden.",
     afbeelding: {
@@ -335,6 +392,12 @@ window.SCHEPEN = [
         ["Sterling & Currency: The silver coins of the Zuytdorp", "https://sterlingcurrency.com.au/blog/news-research/commonwealth-coins/the-silver-coins-of-the-zuytdorp-shipwreck"]
       ]
     },
+    diepte: {
+      meters: 5,
+      kort: "een paar meter",
+      tekst: "In de branding onder de kliffen. Duiken kan er maar een paar dagen per jaar.",
+      bron: ["WA Museum: Zuytdorp", "https://museum.wa.gov.au/maritime-archaeology-db/roaring-40s/Zuytdorp"]
+    },
     noot: "Het wrak is bijzonder moeilijk bereikbaar. Er zijn nog archeologische resten aanwezig en de vindplaats is streng beschermd.",
     afbeelding: {
       src: "img/zuytdorp.jpg",
@@ -355,7 +418,7 @@ window.SCHEPEN = [
     locatie: "Goodwin Sands, voor de Engelse kust.",
     verhaal: "Het VOC-schip strandde kort na vertrek. Alle 237 opvarenden kwamen om.",
     buit: "Zilverbaren, zilveren munten en particuliere handelswaar.",
-    feiten: [["Diepte", "Ongeveer 20–25 meter."], ["Oorspronkelijke waarde", "De bekende lading was meer dan 300.000 gulden waard."]],
+    feiten: [["Oorspronkelijke waarde", "De bekende lading was meer dan 300.000 gulden waard."]],
     schatting: {
       totaal: "ca. €5 tot 10 mln",
       bodem: "ca. €1 mln",
@@ -365,6 +428,12 @@ window.SCHEPEN = [
         ["Wikipedia: Rooswijk", "https://en.wikipedia.org/wiki/Rooswijk"],
         ["Historic England: The discovery of the Rooswijk", "https://heritagecalling.com/2023/07/12/the-discovery-of-the-rooswijk-shipwreck/"]
       ]
+    },
+    diepte: {
+      meters: 24,
+      kort: "ca. 24 m",
+      tekst: "Bij de Goodwin Sands, voor de kust van Kent.",
+      bron: ["Wikipedia: Rooswijk", "https://en.wikipedia.org/wiki/Rooswijk"]
     },
     noot: "Archeologen hebben duizenden voorwerpen geborgen, waaronder zilver dat bemanningsleden vermoedelijk illegaal wilden verhandelen.",
     afbeelding: {
@@ -398,6 +467,12 @@ window.SCHEPEN = [
         ["Grace's Guide: HMS Lutine", "https://gracesguide.co.uk/HMS_Lutine"]
       ]
     },
+    diepte: {
+      meters: 10,
+      kort: "2 tot 14 m",
+      tekst: "Hoe diep precies verschilt per jaar, en het wrak ligt onder een laag zand. De zandbanken schuiven steeds, daarom is het zo moeilijk te bergen.",
+      bron: ["Wikipedia: HMS Lutine", "https://en.wikipedia.org/wiki/HMS_Lutine_(1779)"]
+    },
     noot: "De Lutine ligt in een gebied met sterk bewegende zandbanken. De beroemde scheepsbel werd in de negentiende eeuw geborgen.",
     afbeelding: {
       src: "img/hms-lutine.jpg",
@@ -428,6 +503,12 @@ window.SCHEPEN = [
         ["Wikipedia: General Grant", "https://en.wikipedia.org/wiki/General_Grant_(sailing_ship)"]
       ]
     },
+    diepte: {
+      meters: 20,
+      kort: "ca. 20 m",
+      tekst: "Waarschijnlijk in of onder een ingestorte grot aan de westkust van Auckland Island.",
+      bron: ["Otago Daily Times: Searching for the wreck of the General Grant", "https://www.odt.co.nz/regions/wanaka/searching-wreck-%E2%80%98general-grant%E2%80%99"]
+    },
     noot: "Er zijn tientallen zoekpogingen ondernomen, maar het wrak is nog steeds niet overtuigend gevonden.",
     afbeelding: {
       src: "img/general-grant.jpg",
@@ -450,7 +531,7 @@ window.SCHEPEN = [
     locatie: "Atlantische Oceaan, voor de Amerikaanse oostkust.",
     verhaal: "Het stoomschip vervoerde goud uit de Californische goudkoorts en zonk tijdens een orkaan.",
     buit: "Goudbaren, gouden munten en goudstof.",
-    feiten: [["Diepte", "Ongeveer 2.400 meter."], ["Historische waarde", "Volgens het Smithsonian ongeveer $2,19 miljoen aan goud bij het zinken."]],
+    feiten: [["Historische waarde", "Volgens het Smithsonian ongeveer $2,19 miljoen aan goud bij het zinken."]],
     schatting: {
       totaal: "ca. €400 mln",
       bodem: "ca. €100 mln",
@@ -460,6 +541,12 @@ window.SCHEPEN = [
         ["Wikipedia: SS Central America", "https://en.wikipedia.org/wiki/SS_Central_America"],
         ["Live Science (2014)", "https://www.livescience.com/45366-gold-rush-shipwreck.html"]
       ]
+    },
+    diepte: {
+      meters: 2200,
+      kort: "ca. 2.200 m",
+      tekst: "Het goud is met een onderwaterrobot opgehaald.",
+      bron: ["Scientific American: gold recovered from shipwreck", "https://www.scientificamerican.com/article/27-kilograms-of-gold-treasure-recovered-from-shipwreck-off-coast-of-south-carolina/"]
     },
     noot: "Er zijn grote hoeveelheden goud geborgen, onder meer in 1988 en 2014. De volledige oorspronkelijke hoeveelheid is moeilijk te reconstrueren.",
     afbeelding: {
@@ -481,7 +568,7 @@ window.SCHEPEN = [
     locatie: "Voor de kust van Donegal, Ierland.",
     verhaal: "Het schip vervoerde goud voor Britse oorlogsbetalingen en zonk nadat het op Duitse zeemijnen was gelopen.",
     buit: "3.211 goudbaren, met een totale historische waarde van ongeveer £5 miljoen.",
-    feiten: [["Diepte", "Ongeveer 40 meter."], ["Bijzonder", "Een aanzienlijk deel van het goud lag onder het sediment begraven."]],
+    feiten: [["Bijzonder", "Een aanzienlijk deel van het goud lag onder het sediment begraven."]],
     schatting: {
       totaal: "ca. €4,3 mrd",
       bodem: "ca. €30 mln",
@@ -490,6 +577,12 @@ window.SCHEPEN = [
       bronnen: [
         ["Wikipedia: SS Laurentic", "https://en.wikipedia.org/wiki/SS_Laurentic_(1908)"]
       ]
+    },
+    diepte: {
+      meters: 40,
+      kort: "ca. 40 m",
+      tekst: "Marineduikers haalden het goud er tussen 1917 en 1924 uit.",
+      bron: ["Go Visit Inishowen: SS Laurentic", "https://www.govisitinishowen.com/ss-laurentic-lough-swilly-gold/"]
     },
     noot: "Dit is een van de weinige gevallen waarbij de hoeveelheid ontbrekend goud redelijk nauwkeurig uit bergingsverslagen kan worden afgeleid.",
     afbeelding: {

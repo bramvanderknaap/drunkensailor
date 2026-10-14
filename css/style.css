@@ -212,6 +212,36 @@ a { color: var(--goud-licht); }
 .bronnen { display: grid; gap: 4px; font-size: 0.85rem; }
 .bronnen a { color: var(--kust); }
 .bronnen a::before { content: "↗ "; }
+.balkje.blauw { background: linear-gradient(90deg, #1f6461, #8fe3d6); box-shadow: 0 0 8px rgba(143, 227, 214, 0.4); }
+.diepte { display: grid; grid-template-columns: 1fr 112px; gap: 16px; align-items: start; }
+.diepte-tekst { display: grid; gap: 6px; }
+.diepte-tekst .label { font-size: 0.95rem; }
+.diepte-tekst p { margin: 0; }
+.meter { position: relative; height: 210px; margin: 8px 0 6px; }
+.meter .water {
+  position: absolute; left: 30px; top: 0; bottom: 0; width: 12px;
+  background: linear-gradient(#5fc2b3, #1f6461 25%, #0b2a2b 65%, #010607);
+  border: 1px solid var(--rand);
+}
+.meter .streep, .meter .duikers {
+  position: absolute; left: 30px; transform: translateY(-50%);
+  padding-left: 20px; font-size: 0.72rem; line-height: 1; color: var(--tekst-zacht); white-space: nowrap;
+}
+.meter .streep::before, .meter .duikers::before {
+  content: ""; position: absolute; left: 0; top: 50%; width: 16px; border-top: 1px solid rgba(255, 255, 255, 0.45);
+}
+.meter .duikers { color: #8fe3d6; font-style: italic; }
+.meter .duikers::before { border-top: 1px dashed #8fe3d6; }
+.meter .wrak {
+  position: absolute; left: 0; transform: translateY(-50%); width: 26px; height: 26px;
+  display: grid; place-items: center; color: var(--goud); filter: drop-shadow(0 0 5px rgba(244, 194, 79, 0.8));
+}
+.meter .wrak svg { width: 26px; height: 26px; }
+.meter .wrak::after {
+  content: ""; position: absolute; left: 28px; top: 50%; width: 16px; border-top: 2px solid var(--goud);
+}
+.meter .wrak.onbekend { font-size: 1.3rem; font-weight: 600; }
+.meter .wrak.onbekend::after { display: none; }
 .balkje { height: 6px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55)); box-shadow: 0 0 8px rgba(255, 255, 255, 0.35); }
 .balkje.goud { background: linear-gradient(90deg, #6b5a25, var(--goud-licht)); box-shadow: 0 0 8px rgba(244, 194, 79, 0.45); }
 .feiten { margin: 0; display: grid; }
