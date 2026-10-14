@@ -165,6 +165,8 @@
     const feiten = [["Route", s.route], ["Locatie", s.locatie], ...s.feiten,
       ["Positie op de kaart (bij benadering)", `${graden(s.wrak[0], "NB", "ZB")}, ${graden(s.wrak[1], "OL", "WL")}`]];
     const a = s.afbeelding;
+    const sch = s.schatting;
+    const niveau = ["zeer laag", "laag", "middel", "hoog"].indexOf(sch.zekerheid) + 1;
     details.innerHTML = `
       ${a ? `<figure class="vak afbeelding">
         <img src="${esc(a.src)}" alt="${esc(a.onderschrift)}"${a.positie ? ` style="object-position:${esc(a.positie)}"` : ""}>
@@ -177,8 +179,19 @@
         <p class="verhaal">${esc(s.verhaal)}</p>
       </div>
       <div class="duo">
-        <div class="vak"><span class="label">buit</span><div class="balkje"></div><span class="groot">${esc(s.buit)}</span></div>
-        <div class="vak"><span class="label">nog op de bodem</span><div class="balkje goud"></div><span class="groot">${esc(s.waarde)}</span></div>
+        <div class="vak"><span class="label">buit</span><div class="balkje"></div>
+          <span class="bedrag">${esc(sch.totaal)}</span><span class="klein">hele lading, in geld van nu</span>
+          <span class="groot">${esc(s.buit)}</span></div>
+        <div class="vak"><span class="label">waarde nog op de bodem</span><div class="balkje goud"></div>
+          <span class="bedrag">${esc(sch.bodem)}</span><span class="klein">beste schatting</span>
+          <span class="zekerheid" title="Hoe zeker is deze schatting?">zekerheid: ${esc(sch.zekerheid)}
+            <span class="stipjes" aria-hidden="true">${[1, 2, 3, 4].map(i => `<i${i <= niveau ? ' class="aan"' : ""}></i>`).join("")}</span></span></div>
+      </div>
+      <div class="vak geschat">
+        <p class="label">hoe is dit geschat?</p>
+        <p>${esc(sch.uitleg)}</p>
+        <p class="klein">Gerekend met goud ${esc(PRIJZEN.goud)} en zilver ${esc(PRIJZEN.zilver)} (${esc(PRIJZEN.datum)}). Dat is de waarde van het metaal; munten en voorwerpen zijn voor verzamelaars vaak meer waard.</p>
+        <p class="bronnen">${sch.bronnen.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`).join("")}</p>
       </div>
       <dl class="vak feiten">
         ${feiten.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}

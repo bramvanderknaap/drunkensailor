@@ -199,7 +199,19 @@ a { color: var(--goud-licht); }
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .duo .vak { display: grid; align-content: start; gap: 6px; }
 .duo .label { font-size: 0.95rem; color: var(--tekst); }
-.duo .groot { color: var(--goud); font-weight: 400; font-size: 0.95rem; line-height: 1.4; }
+.duo .groot { color: var(--tekst-zacht); font-size: 0.9rem; line-height: 1.4; margin-top: 4px; }
+.bedrag { color: var(--goud); font-size: 1.35rem; line-height: 1.2; text-shadow: 0 0 10px rgba(244, 194, 79, 0.35); }
+.klein { font-size: 0.8rem; color: var(--tekst-zacht); }
+.zekerheid { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 0.85rem; margin-top: 4px; }
+.stipjes { display: inline-flex; gap: 3px; }
+.stipjes i { width: 14px; height: 5px; background: rgba(255, 255, 255, 0.18); }
+.stipjes i.aan { background: var(--goud); box-shadow: 0 0 6px rgba(244, 194, 79, 0.5); }
+.geschat p { margin: 0 0 8px; }
+.geschat p:last-child { margin-bottom: 0; }
+.geschat .label { font-size: 0.95rem; color: var(--goud-licht); }
+.bronnen { display: grid; gap: 4px; font-size: 0.85rem; }
+.bronnen a { color: var(--kust); }
+.bronnen a::before { content: "↗ "; }
 .balkje { height: 6px; background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.55)); box-shadow: 0 0 8px rgba(255, 255, 255, 0.35); }
 .balkje.goud { background: linear-gradient(90deg, #6b5a25, var(--goud-licht)); box-shadow: 0 0 8px rgba(244, 194, 79, 0.45); }
 .feiten { margin: 0; display: grid; }

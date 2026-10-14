@@ -15,7 +15,18 @@
 //          (zie STATUSSEN hieronder voor de kleuren en namen).
 //  afbeelding: (mag weg) een schilderij of foto in de map img/, met
 //          onderschrift, maker, licentie en een link naar de bron.
+//  schatting: wat de buit nu waard is. totaal = de hele lading in geld
+//          van nu, bodem = wat er vermoedelijk nog op de zeebodem ligt,
+//          zekerheid = zeer laag, laag, middel of hoog. In uitleg staat
+//          hoe het berekend is, in bronnen de links waar het vandaan komt.
 // ===================================================================
+
+// De prijzen waarmee de schattingen zijn berekend (metaalwaarde).
+window.PRIJZEN = {
+  datum: "14 oktober 2026",
+  goud: "€118 per gram",
+  zilver: "€1,74 per gram"
+};
 
 window.STATUSSEN = {
   vermist:  { naam: "Niet teruggevonden",                   kort: "vermist",        kleur: "#ff6150", gloed: "rgba(255,97,80,.55)" },
@@ -38,7 +49,16 @@ window.SCHEPEN = [
     verhaal: "Na de Portugese verovering van Malakka vervoerde het schip kostbaarheden die waren buitgemaakt in de stad. Het verging tijdens een storm.",
     buit: "Goud, juwelen, kostbare voorwerpen en diplomatieke geschenken.",
     feiten: [],
-    waarde: "Onbekend. Schattingen van miljarden dollars circuleren, maar zijn niet onderbouwd met een betrouwbare inventaris.",
+    schatting: {
+      totaal: "onbekend",
+      bodem: "onbekend",
+      zekerheid: "zeer laag",
+      uitleg: "Er bestaat geen lijst van wat er aan boord was. Het vaak genoemde verhaal van ‘60 ton goud’ zou nu ongeveer €7 miljard waard zijn, maar daar is geen bron voor. Volgens Albuquerque zelf werd bijna niets gered: alleen een gouden kroon, een zwaard en een robijnen ring.",
+      bronnen: [
+        ["Wikipedia: Flor de la Mar", "https://en.wikipedia.org/wiki/Flor_de_la_Mar"],
+        ["The Daily Beast: ‘$2.6 billion treasure’", "https://thedailybeast.com/the-dollar26-billion-treasure-still-lost-at-the-bottom-of-the-sea"]
+      ]
+    },
     noot: "Het wrak is nooit overtuigend geïdentificeerd. Bovendien is onzeker hoeveel van de oorspronkelijke lading na de schipbreuk kon worden gered.",
     afbeelding: {
       src: "img/flor-do-mar.jpg",
@@ -61,7 +81,15 @@ window.SCHEPEN = [
     verhaal: "Het Engelse handelsschip vervoerde onder meer edelmetaal voor de betaling van Spaanse troepen in de Nederlanden. Door lekkage en slecht weer zonk het schip.",
     buit: "Goud, zilver, munten en mogelijk juwelen.",
     feiten: [["Historische waarde", "In een document uit 1641 werd het verlies op minstens £400.000 geschat."]],
-    waarde: "Onbekend. Een moderne schatting van £150–300 miljoen is gepubliceerd, maar is geen geverifieerde taxatie.",
+    schatting: {
+      totaal: "ca. €190 mln",
+      bodem: "ca. €190 mln",
+      zekerheid: "laag",
+      uitleg: "Een brief uit 1641 schatte de lading op minstens £400.000. Ik reken met ongeveer 500.000 zilveren ‘pieces of eight’ en 400 zilverbaren (samen ca. 27 ton zilver) en de rest in goud (ca. 1,2 ton). Er is niets van geborgen. De vaak genoemde ‘100.000 pond goud’ (45 ton, ruim €5 miljard) past niet bij die £400.000 uit 1641. Bandbreedte: €80 tot 400 miljoen.",
+      bronnen: [
+        ["Wikipedia: Royal Merchant", "https://en.wikipedia.org/wiki/Royal_Merchant"]
+      ]
+    },
     noot: "Een van de interessantste nog vermiste historische schatschepen in Europese wateren.",
     afbeelding: {
       src: "img/merchant-royal.jpg",
@@ -84,7 +112,16 @@ window.SCHEPEN = [
     verhaal: "Het galjoen was onderdeel van de Spaanse zilvervloot. Tijdens een zware storm verging het schip met zijn kostbare handelslading.",
     buit: "Zilveren munten, zilverbaren, zijde, cacao en andere koloniale handelswaar.",
     feiten: [],
-    waarde: "Onbekend. Er is geen betrouwbaar vastgesteld bedrag voor de resterende lading.",
+    schatting: {
+      totaal: "ca. €160 mln",
+      bodem: "ca. €160 mln",
+      zekerheid: "middel",
+      uitleg: "Volgens de Spaanse administratie vervoerde de Juncal 3.644.198 pesos aan zilver en munten. Dat is ongeveer 93 ton puur zilver, nu ca. €160 miljoen. Andere bronnen spreken van 120 tot 150 ton edelmetaal, tot ca. €260 miljoen. Het wrak is nooit gevonden, dus alles ligt er nog.",
+      bronnen: [
+        ["Hispanopedia: Nuestra Señora del Juncal", "https://es.hispanopedia.com/wiki/Nuestra_Se%C3%B1ora_del_Juncal"],
+        ["IAL: Renewed search for the Juncal", "https://ial.uk.com/renewed-search-for-one-of-spains-greatest-treasure-galleons/"]
+      ]
+    },
     noot: "Spanje en Mexico werken samen aan archeologisch onderzoek naar het verdwenen galjoen.",
     afbeelding: {
       src: "img/juncal.jpg",
@@ -106,7 +143,16 @@ window.SCHEPEN = [
     verhaal: "Het Britse oorlogsschip zonk tijdens een storm. Volgens historische aanwijzingen vervoerde het mogelijk geld om de hertog van Savoye als bondgenoot te behouden.",
     buit: "Gouden en zilveren munten (mogelijk).",
     feiten: [["Vermeende historische waarde", "Ongeveer £1 miljoen."]],
-    waarde: "Niet vast te stellen.",
+    schatting: {
+      totaal: "ca. €1 mrd (als het goud er was)",
+      bodem: "ca. €1 mrd (als het goud er was)",
+      zekerheid: "laag",
+      uitleg: "Volgens de verhalen had het schip ongeveer £1 miljoen aan gouden munten aan boord, 7 tot 10 ton goud. Tegen de goudprijs van nu is dat €0,8 tot 1,2 miljard. Of dat goud echt aan boord was, is nooit bewezen, en het wrak is niet zeker geïdentificeerd. Hogere bedragen (tot €6,4 miljard) tellen ook de verzamelwaarde van oude munten mee.",
+      bronnen: [
+        ["Wikipedia: HMS Sussex (1693)", "https://en.wikipedia.org/wiki/HMS_Sussex_(1693)"],
+        ["The Olive Press (2026)", "https://www.theolivepress.es/spain-news/2026/08/11/gibraltar-treasure-ship-search/"]
+      ]
+    },
     noot: "Let op: zowel de precieze hoeveelheid goud aan boord als de identificatie van het onderzochte wrak zijn onzeker. In 2001 werd een mogelijke wraklocatie ontdekt, maar dat leverde geen bevestigde goudschat op.",
     afbeelding: {
       src: "img/hms-sussex.jpg",
@@ -128,7 +174,15 @@ window.SCHEPEN = [
     verhaal: "Het galjoen werd tijdens de Spaanse Successieoorlog aangevallen door Britse oorlogsschepen en zonk in de Slag bij Barú.",
     buit: "Goud, zilver, edelstenen en handelswaar.",
     feiten: [["Diepte", "Circa 600 meter."], ["Historische waarde", "Naar schatting 7–12 miljoen Spaanse pesos."]],
-    waarde: "Moderne schattingen lopen in de miljarden dollars, maar de werkelijke marktwaarde is niet vastgesteld.",
+    schatting: {
+      totaal: "ca. €0,9 mrd",
+      bodem: "ca. €0,9 mrd",
+      zekerheid: "laag",
+      uitleg: "Historisch 7 tot 12 miljoen pesos. Als dat allemaal zilver was, is het nu €0,3 tot 0,5 miljard. Ik neem aan dat ongeveer een derde van de waarde in goud was; dan kom je op €0,6 tot 1,1 miljard. Er zijn pas een paar voorwerpen geborgen. De vaak genoemde $17 tot 20 miljard telt ook archeologische en verzamelwaarde mee.",
+      bronnen: [
+        ["Wikipedia: San José (galjoen)", "https://en.wikipedia.org/wiki/Spanish_galleon_San_Jos%C3%A9"]
+      ]
+    },
     noot: "Het wrak werd in 2015 ontdekt. Colombia heeft inmiddels enkele archeologische voorwerpen geborgen, maar de hoofdcollectie bevindt zich nog onder water.",
     afbeelding: {
       src: "img/san-jose.jpg",
@@ -150,7 +204,16 @@ window.SCHEPEN = [
     verhaal: "Het galjoen verging in een orkaan. In 1985 ontdekte Mel Fisher het belangrijkste deel van de kostbare lading.",
     buit: "Zilverbaren, gouden voorwerpen, munten en smaragden.",
     feiten: [["Oorspronkelijke lading", "Onder meer 1.038 zilverbaren en 125 goudbaren of gouden schijven, volgens het Mel Fisher Maritime Museum."]],
-    waarde: "Onbekend. De bergingsorganisatie verwacht nog aanzienlijke vondsten.",
+    schatting: {
+      totaal: "ca. €120 mln (plus smaragden)",
+      bodem: "ca. €50 mln (plus smaragden)",
+      zekerheid: "laag",
+      uitleg: "De Atocha vervoerde ongeveer 40 ton goud en zilver en 32 kg smaragden. Daarvan is ca. 24 ton zilver geborgen, plus 125 goudbaren en -schijven. Wat nog mist is vooral het achterschip, met waarschijnlijk het meeste goud en de smaragden. De ruim 16 ton zilver die nog mist is nu ca. €28 miljoen waard; met het ontbrekende goud schat ik ca. €50 miljoen. Op veilingen brengen Atocha-voorwerpen veel meer op dan hun metaalwaarde.",
+      bronnen: [
+        ["Wikipedia: Nuestra Señora de Atocha", "https://en.wikipedia.org/wiki/Nuestra_Se%C3%B1ora_de_Atocha"],
+        ["Maritime Executive", "https://www.maritime-executive.com/editorials/the-world-s-most-valuable-shipwreck-the-nuestra-senora-de-atocha"]
+      ]
+    },
     noot: "In juni 2026 werd opnieuw een zilverbaar van ongeveer 10 kg gevonden. Dit bevestigt dat er nog waardevolle voorwerpen aanwezig zijn.",
     afbeelding: {
       src: "img/atocha.jpg",
@@ -172,7 +235,15 @@ window.SCHEPEN = [
     verhaal: "Dit galjoen verging tijdens dezelfde orkaan als de Atocha. Het wrak werd in 1980 ontdekt.",
     buit: "Goudbaren, gouden sieraden, zilveren munten en parels.",
     feiten: [],
-    waarde: "Onbekend.",
+    schatting: {
+      totaal: "ca. €60 mln",
+      bodem: "ca. €20 mln",
+      zekerheid: "laag",
+      uitleg: "Volgens het vrachtregister: 166.574 zilveren munten, ruim 550 zilverbaren en ruim 9.000 ounce goud (ca. 280 kg), samen ca. €60 miljoen. Spaanse duikers haalden in 1626 al een groot deel van het zilver op, en sinds 1980 is voor ruim $16 miljoen geborgen. Ik schat dat er nog ongeveer een derde ligt.",
+      bronnen: [
+        ["Wikipedia: Santa Margarita", "https://en.wikipedia.org/wiki/Santa_Margarita_(shipwreck)"]
+      ]
+    },
     noot: "Bij eerdere expedities zijn miljoenen dollars aan kostbaarheden geborgen. De zoektocht naar overige delen van de lading gaat door.",
     afbeelding: {
       src: "img/santa-margarita.jpg",
@@ -194,7 +265,15 @@ window.SCHEPEN = [
     verhaal: "Het VOC-schip liep op een rif. Daarna volgden een muiterij en de moord op meer dan honderd overlevenden.",
     buit: "Twaalf kisten zilveren munten, zilverwerk en kostbare voorwerpen.",
     feiten: [["Historische berging", "In 1629 werden tien van de twaalf geldkisten teruggehaald."]],
-    waarde: "Onbekend. Bij latere opgravingen zijn ook munten uit de achtergebleven kisten gevonden.",
+    schatting: {
+      totaal: "ca. €4,5 mln",
+      bodem: "minder dan €0,5 mln",
+      zekerheid: "middel",
+      uitleg: "Twaalf kisten zilveren munten ter waarde van 250.000 gulden, ongeveer 2,6 ton zilver. In 1629 werden tien kisten opgehaald, en bij latere opgravingen kwamen nog ruim 10.000 munten boven. Er ligt dus hooguit een klein deel. Als verzamelobject is een munt uit dit wrak wel veel meer waard dan het zilver.",
+      bronnen: [
+        ["World History Encyclopedia: Wreck of the Batavia", "https://www.worldhistory.org/article/2391/wreck-of-the-batavia/"]
+      ]
+    },
     noot: "Het wrak is uitgebreid archeologisch onderzocht en beschermd.",
     afbeelding: {
       src: "img/batavia.jpg",
@@ -216,7 +295,15 @@ window.SCHEPEN = [
     verhaal: "Het VOC-schip liep 's nachts op een rif. Veel overlevenden bereikten de kust, maar verdwenen vervolgens.",
     buit: "Acht kisten zilveren munten ter waarde van 78.600 gulden, plus handelswaar.",
     feiten: [],
-    waarde: "Onbekend.",
+    schatting: {
+      totaal: "ca. €1,4 mln",
+      bodem: "ca. €1 mln",
+      zekerheid: "laag",
+      uitleg: "Acht kisten zilveren munten ter waarde van 78.600 gulden, ongeveer 0,8 ton zilver. In 1963 werden ca. 10.000 munten geborgen. Hoeveel er nog ligt is niet bekend; ik schat ongeveer driekwart van het zilver. Dit is de metaalwaarde; op de verzamelmarkt zijn deze munten meer waard.",
+      bronnen: [
+        ["Wikipedia: Vergulde Draeck", "https://en.wikipedia.org/wiki/Vergulde_Draeck"]
+      ]
+    },
     noot: "Er zijn inmiddels meer dan 8.500 zilveren munten geborgen. Dat betekent niet dat de volledige oorspronkelijke lading is teruggevonden.",
     afbeelding: {
       src: "img/vergulde-draeck.jpg",
@@ -239,7 +326,15 @@ window.SCHEPEN = [
     verhaal: "Het VOC-schip verging tegen de steile Australische kust. Geen enkele overlevende bereikte Batavia.",
     buit: "Een grote hoeveelheid zilveren munten.",
     feiten: [["Historische waarde", "Ongeveer 250.000 gulden aan zilver."]],
-    waarde: "Onbekend.",
+    schatting: {
+      totaal: "ca. €4,2 mln",
+      bodem: "ca. €4 mln",
+      zekerheid: "middel",
+      uitleg: "Ongeveer 248.000 gulden aan zilver, ca. 2,4 ton. Het WA Maritime Museum bewaart ca. 14.000 munten, vooral kleine schellingen. Dat is maar een paar procent van de lading. Het meeste ligt nog verspreid tussen de rotsen.",
+      bronnen: [
+        ["Sterling & Currency: The silver coins of the Zuytdorp", "https://sterlingcurrency.com.au/blog/news-research/commonwealth-coins/the-silver-coins-of-the-zuytdorp-shipwreck"]
+      ]
+    },
     noot: "Het wrak is bijzonder moeilijk bereikbaar. Er zijn nog archeologische resten aanwezig en de vindplaats is streng beschermd.",
     afbeelding: {
       src: "img/zuytdorp.jpg",
@@ -261,7 +356,16 @@ window.SCHEPEN = [
     verhaal: "Het VOC-schip strandde kort na vertrek. Alle 237 opvarenden kwamen om.",
     buit: "Zilverbaren, zilveren munten en particuliere handelswaar.",
     feiten: [["Diepte", "Ongeveer 20–25 meter."], ["Oorspronkelijke waarde", "De bekende lading was meer dan 300.000 gulden waard."]],
-    waarde: "Onbekend.",
+    schatting: {
+      totaal: "ca. €5 tot 10 mln",
+      bodem: "ca. €1 mln",
+      zekerheid: "laag",
+      uitleg: "De officiële lading was 300.000 gulden aan zilver en goud, nu ca. €5 miljoen. De bemanning had daarnaast veel zilver voor illegale handel, misschien evenveel. In 2005 werden ongeveer duizend zilverbaren opgehaald, en in 2017 en 2018 is het wrak opgegraven. Ik schat dat er nog maar weinig ligt; exacte cijfers zijn niet gepubliceerd.",
+      bronnen: [
+        ["Wikipedia: Rooswijk", "https://en.wikipedia.org/wiki/Rooswijk"],
+        ["Historic England: The discovery of the Rooswijk", "https://heritagecalling.com/2023/07/12/the-discovery-of-the-rooswijk-shipwreck/"]
+      ]
+    },
     noot: "Archeologen hebben duizenden voorwerpen geborgen, waaronder zilver dat bemanningsleden vermoedelijk illegaal wilden verhandelen.",
     afbeelding: {
       src: "img/rooswijk.jpg",
@@ -283,7 +387,17 @@ window.SCHEPEN = [
     verhaal: "Het Britse fregat vervoerde een grote hoeveelheid edelmetaal om een financiële crisis in Hamburg te helpen verlichten.",
     buit: "Goud- en zilverbaren en munten.",
     feiten: [["Historische waarde", "Volgens Lloyd's ongeveer £1 miljoen."]],
-    waarde: "Onbekend, maar een aanzienlijk deel van de oorspronkelijke lading is nooit verantwoord als geborgen.",
+    schatting: {
+      totaal: "ca. €700 mln",
+      bodem: "ca. €600 mln",
+      zekerheid: "laag",
+      uitleg: "De Lutine had £1 tot 1,2 miljoen (van 1799) aan goud en zilver aan boord. Hoeveel daarvan goud was, is niet bekend. Bij £1,2 miljoen is het nu €230 miljoen waard als alles zilver was, en €1 miljard als alles goud was. Ik reken met ongeveer 60% goud, dus ca. €700 miljoen. Tot nu toe is ongeveer een tiende geborgen. De bekende €90 tot 95 miljoen is het bedrag van 1799 omgerekend met inflatie, niet met de goudprijs van nu. De Rijksdienst voor het Cultureel Erfgoed schat dat er nog ca. €20 miljoen ligt.",
+      bronnen: [
+        ["Rijksdienst voor het Cultureel Erfgoed: HMS Lutine", "https://mass.cultureelerfgoed.nl/hms-lutine"],
+        ["Metal Detecting UK: Lutine", "https://detecting.org.uk/html/Lutine_Shipwreck.html"],
+        ["Grace's Guide: HMS Lutine", "https://gracesguide.co.uk/HMS_Lutine"]
+      ]
+    },
     noot: "De Lutine ligt in een gebied met sterk bewegende zandbanken. De beroemde scheepsbel werd in de negentiende eeuw geborgen.",
     afbeelding: {
       src: "img/hms-lutine.jpg",
@@ -305,7 +419,15 @@ window.SCHEPEN = [
     verhaal: "Het schip werd tegen de kust van een afgelegen eiland gedreven en verging. Slechts vijftien mensen overleefden de ramp.",
     buit: "Goud en reguliere handelswaar.",
     feiten: [["Vermoedelijke hoeveelheid goud", "2.576 troy ounce, ongeveer 80,1 kg."]],
-    waarde: "Niet vastgesteld; zelfs de aanwezigheid van de volledige opgegeven hoeveelheid goud is niet definitief bevestigd.",
+    schatting: {
+      totaal: "ca. €9 mln",
+      bodem: "ca. €9 mln",
+      zekerheid: "middel",
+      uitleg: "Volgens de lading had het schip 2.576 ounce goud aan boord, 73 tot 80 kg. Tegen de goudprijs van nu is dat ca. €9 miljoen. Er is nooit iets van geborgen. Oudere claims van ‘$20 miljoen’ kwamen van iemand die bekendstond om fraude.",
+      bronnen: [
+        ["Wikipedia: General Grant", "https://en.wikipedia.org/wiki/General_Grant_(sailing_ship)"]
+      ]
+    },
     noot: "Er zijn tientallen zoekpogingen ondernomen, maar het wrak is nog steeds niet overtuigend gevonden.",
     afbeelding: {
       src: "img/general-grant.jpg",
@@ -329,7 +451,16 @@ window.SCHEPEN = [
     verhaal: "Het stoomschip vervoerde goud uit de Californische goudkoorts en zonk tijdens een orkaan.",
     buit: "Goudbaren, gouden munten en goudstof.",
     feiten: [["Diepte", "Ongeveer 2.400 meter."], ["Historische waarde", "Volgens het Smithsonian ongeveer $2,19 miljoen aan goud bij het zinken."]],
-    waarde: "Onbekend.",
+    schatting: {
+      totaal: "ca. €400 mln",
+      bodem: "ca. €100 mln",
+      zekerheid: "laag",
+      uitleg: "Het Smithsonian noemt $2,19 miljoen aan goud in 1857, ongeveer 3,3 ton, nu ca. €390 miljoen. Tel je het goud van passagiers mee, dan noemen sommige bronnen tot 9 ton (ca. €1 miljard). Volgens Live Science lag er in 2014 nog een zending van $93.000 en $250.000 tot $1,28 miljoen aan goud van passagiers (bedragen van 1857). Dat is nu €60 tot 240 miljoen; daarna is er nog wat geborgen.",
+      bronnen: [
+        ["Wikipedia: SS Central America", "https://en.wikipedia.org/wiki/SS_Central_America"],
+        ["Live Science (2014)", "https://www.livescience.com/45366-gold-rush-shipwreck.html"]
+      ]
+    },
     noot: "Er zijn grote hoeveelheden goud geborgen, onder meer in 1988 en 2014. De volledige oorspronkelijke hoeveelheid is moeilijk te reconstrueren.",
     afbeelding: {
       src: "img/ss-central-america.jpg",
@@ -351,7 +482,15 @@ window.SCHEPEN = [
     verhaal: "Het schip vervoerde goud voor Britse oorlogsbetalingen en zonk nadat het op Duitse zeemijnen was gelopen.",
     buit: "3.211 goudbaren, met een totale historische waarde van ongeveer £5 miljoen.",
     feiten: [["Diepte", "Ongeveer 40 meter."], ["Bijzonder", "Een aanzienlijk deel van het goud lag onder het sediment begraven."]],
-    waarde: "Volgens verschillende bergingsverslagen ontbreken nog ongeveer 20–22 goudbaren. Het exacte aantal is niet eenduidig.",
+    schatting: {
+      totaal: "ca. €4,3 mrd",
+      bodem: "ca. €30 mln",
+      zekerheid: "hoog",
+      uitleg: "3.211 goudbaren ter waarde van £5 miljoen (1917), ongeveer 36,6 ton puur goud. Dat is nu ca. €4,3 miljard. Er ontbreken nog ongeveer 22 baren, samen ca. 250 kg goud, nu ca. €30 miljoen.",
+      bronnen: [
+        ["Wikipedia: SS Laurentic", "https://en.wikipedia.org/wiki/SS_Laurentic_(1908)"]
+      ]
+    },
     noot: "Dit is een van de weinige gevallen waarbij de hoeveelheid ontbrekend goud redelijk nauwkeurig uit bergingsverslagen kan worden afgeleid.",
     afbeelding: {
       src: "img/ss-laurentic.jpg",

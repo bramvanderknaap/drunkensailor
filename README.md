@@ -49,6 +49,16 @@ Alle afbeeldingen komen van Wikimedia Commons. Bij elk schip staan de maker, de 
 en een link naar de bron. Van sommige schepen bestaat geen bekende afbeelding; daar staat
 een vergelijkbaar schip uit dezelfde tijd, met "Ter illustratie" in het onderschrift.
 
+## Hoeveel is de buit waard?
+
+Bij elk schip staat bij `schatting` wat de hele lading nu waard is (`totaal`) en wat er
+vermoedelijk nog op de bodem ligt (`bodem`), met een uitleg en links naar de bronnen.
+Dit is de waarde van het goud en zilver tegen de prijs van 14 oktober 2026
+(goud €118 per gram, zilver €1,74 per gram, zie `PRIJZEN` bovenin `js/schepen.js`).
+Oude munten en voorwerpen zijn voor verzamelaars vaak veel meer waard. Veel bedragen die
+je online ziet tellen die verzamelwaarde mee, of rekenen een oud bedrag om met inflatie;
+daarom kunnen ze flink verschillen.
+
 ## Let op
 
 De posities en routes zijn bij benadering getekend. Van een aantal schepen is de
