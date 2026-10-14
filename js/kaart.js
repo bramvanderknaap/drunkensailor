@@ -160,6 +160,22 @@
 
   // ---------- details ----------
   const details = document.getElementById("details");
+
+  // Dieptemeter: van het wateroppervlak tot 3 km diep. De schaal is
+  // logaritmisch (1, 10, 100, 1000 m staan even ver uit elkaar), anders
+  // zouden alle ondiepe wrakken bovenaan op een hoopje liggen.
+  const DIEPST = 3000;
+  const hoogte = m => (100 * Math.log10(Math.max(m, 1)) / Math.log10(DIEPST)).toFixed(1);
+  function dieptemeter(m) {
+    const streepjes = [[1, "oppervlak"], [10, "10 m"], [100, "100 m"], [1000, "1 km"]];
+    return `<div class="meter" aria-hidden="true">
+      <span class="water"></span>
+      ${streepjes.map(([d, t]) => `<span class="streep" style="top:${hoogte(d)}%">${t}</span>`).join("")}
+      <span class="duikers" style="top:${hoogte(40)}%">duikers</span>
+      ${m == null ? `<span class="wrak onbekend" style="top:50%">?</span>`
+                  : `<span class="wrak" style="top:${hoogte(m)}%">${SCHIP_SVG}</span>`}
+    </div>`;
+  }
   function toonDetails(s) {
     const st = STATUSSEN[s.status];
     const feiten = [["Route", s.route], ["Locatie", s.locatie], ...s.feiten,
@@ -192,6 +208,15 @@
         <p>${esc(sch.uitleg)}</p>
         <p class="klein">Gerekend met goud ${esc(PRIJZEN.goud)} en zilver ${esc(PRIJZEN.zilver)} (${esc(PRIJZEN.datum)}). Dat is de waarde van het metaal; munten en voorwerpen zijn voor verzamelaars vaak meer waard.</p>
         <p class="bronnen">${sch.bronnen.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`).join("")}</p>
+      </div>
+      <div class="vak diepte">
+        <div class="diepte-tekst">
+          <span class="label">diepte</span><div class="balkje blauw"></div>
+          <span class="bedrag">${esc(s.diepte.kort)}</span>
+          <p>${esc(s.diepte.tekst)}</p>
+          <p class="bronnen"><a href="${esc(s.diepte.bron[1])}" target="_blank" rel="noopener">${esc(s.diepte.bron[0])}</a></p>
+        </div>
+        ${dieptemeter(s.diepte.meters)}
       </div>
       <dl class="vak feiten">
         ${feiten.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}

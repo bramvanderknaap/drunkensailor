@@ -59,6 +59,13 @@ Oude munten en voorwerpen zijn voor verzamelaars vaak veel meer waard. Veel bedr
 je online ziet tellen die verzamelwaarde mee, of rekenen een oud bedrag om met inflatie;
 daarom kunnen ze flink verschillen.
 
+## Hoe diep liggen ze?
+
+Bij `diepte` staat hoe diep elk wrak (waarschijnlijk) ligt, met een bron. De dieptemeter
+in het paneel loopt van het wateroppervlak tot 3 km diep en is logaritmisch: 1, 10, 100
+en 1000 meter staan even ver uit elkaar, zodat je ondiepe en diepe wrakken allebei goed
+ziet. De stippellijn bij 40 meter is ongeveer hoe diep sportduikers kunnen komen.
+
 ## Let op
 
 De posities en routes zijn bij benadering getekend. Van een aantal schepen is de
