@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gezonken Schatschepen</title>
+  <meta name="description" content="Interactieve wereldkaart van beroemde gezonken schatschepen, hun route, verhaal en buit.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&family=Spectral+SC:wght@600&display=swap">
+  <link rel="stylesheet" href="css/leaflet.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="kop">
+    <div>
+      <h1>Gezonken Schatschepen</h1>
+      <p>Waar ze vergingen, waar ze heen gingen en wat er nog op de bodem ligt.</p>
+    </div>
+    <div class="legenda" id="legenda" aria-label="Filter op status"></div>
+  </header>
+  <main class="hoofd">
+    <div id="kaart" aria-label="Wereldkaart met wrakken"></div>
+    <aside class="paneel" id="paneel" aria-live="polite"></aside>
+  </main>
+
+  <script src="js/leaflet.js"></script>
+  <script src="js/land.js"></script>
+  <script src="js/schepen.js"></script>
+  <script src="js/kaart.js"></script>
+</body>
+</html>

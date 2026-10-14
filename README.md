@@ -1,0 +1,46 @@
+# Gezonken Schatschepen
+
+Een interactieve wereldkaart van beroemde schepen die met hun buit zijn gezonken.
+Klik op een schip (op de kaart of in de lijst) en je ziet de route die het voer,
+waar het verging, het verhaal, de buit en wat er nog op de bodem ligt.
+
+## Hoe de website in elkaar zit
+
+| Bestand | Wat het doet |
+| --- | --- |
+| `index.html` | De pagina zelf: de kopregel, de kaart en het paneel rechts. |
+| `css/style.css` | De opmaak: kleuren, lettertypes, indeling (ook de donkere modus). |
+| `js/schepen.js` | **Alle schepen en hun verhalen.** Dit is het bestand dat je het vaakst aanpast. |
+| `js/kaart.js` | Tekent de kaart, de markers, de routes en het paneel. |
+| `js/land.js` | De vorm van alle continenten (Natural Earth, vrij te gebruiken). |
+| `js/leaflet.js`, `css/leaflet.css` | Leaflet, de gratis bibliotheek die de kaart laat zoomen en slepen. |
+
+## Een schip toevoegen
+
+1. Open `js/schepen.js`.
+2. Kopieer een heel blok van `{` tot en met `},`.
+3. Plak het onderaan in de lijst (vóór de `];`) en pas de teksten aan.
+4. Zoek de coördinaten van het wrak op (bijvoorbeeld via Google Maps: rechtsklik op
+   een plek) en zet ze bij `wrak`. Noord en oost zijn positief, zuid en west negatief.
+5. Teken bij `lijn` de route met een paar punten en zet `WRAK` waar het schip verging.
+
+De lijst sorteert zichzelf op jaartal, en de filterknoppen tellen vanzelf mee.
+
+## Bekijken op je eigen computer
+
+Dubbelklik op `index.html`. De kaart werkt meteen in je browser.
+
+## Publiceren met GitHub Pages
+
+1. Ga op GitHub naar deze repository → **Settings** → **Pages**.
+2. Kies bij *Source* **Deploy from a branch**, kies de branch `main` en de map `/ (root)`.
+3. Klik op **Save**. Na een minuutje staat de site op
+   `https://<jouw-gebruikersnaam>.github.io/<naam-van-de-repository>/`.
+
+Elke keer dat je iets aanpast en het op `main` zet, werkt GitHub de site vanzelf bij.
+
+## Let op
+
+De posities en routes zijn bij benadering getekend. Van een aantal schepen is de
+wrakplek niet bekend of omstreden; de marker staat dan in het gebied waar het schip
+vermoedelijk verging.
