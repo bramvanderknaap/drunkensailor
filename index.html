@@ -4,38 +4,65 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Gezonken Schatschepen</title>
-  <meta name="description" content="Interactieve wereldkaart van beroemde gezonken schatschepen, hun route, verhaal en buit.">
+  <meta name="description" content="Interactieve wereldbol van beroemde gezonken schatschepen, hun route, verhaal en buit.">
+  <meta name="theme-color" content="#061a1c">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,300&display=swap">
-  <link rel="stylesheet" href="css/leaflet.css">
+  <link rel="stylesheet" href="css/maplibre-gl.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header class="balk">
-    <h1 class="titel">gezonken schatschepen</h1>
-    <div class="voorraad" id="filters" aria-label="Filter op status"></div>
-    <div class="teller" title="Wrakken op de kaart">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 9l8 13 8-13-8-7Zm0 3.2L16.9 9H7.1L12 5.2Z"/></svg>
-      <span id="teller">15</span>
-    </div>
-  </header>
-
   <main class="scherm">
-    <div id="kaart" aria-label="Zeekaart met wrakken"></div>
+    <div id="kaart" aria-label="Wereldbol met wrakken"></div>
     <div class="vignet" aria-hidden="true"></div>
 
-    <nav class="vloot" aria-label="De vloot">
-      <p class="kopje">de vloot</p>
-      <ul id="vloot"></ul>
-    </nav>
+    <header class="balk materiaal">
+      <h1 class="titel">gezonken schatschepen</h1>
+      <div class="voorraad" id="filters" role="group" aria-label="Filter op status"></div>
+      <div class="teller" title="Wrakken op de kaart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 4 9l8 13 8-13-8-7Zm0 3.2L16.9 9H7.1L12 5.2Z"/></svg>
+        <span id="teller">15</span>
+      </div>
+    </header>
 
-    <section class="details" id="details" aria-live="polite" hidden></section>
+    <div class="bediening" role="toolbar" aria-label="Kaartbediening">
+      <div class="weergave materiaal" role="radiogroup" aria-label="Weergave">
+        <button type="button" role="radio" data-weergave="globe" aria-checked="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.6 2.6 3.8 5.6 3.8 9s-1.2 6.4-3.8 9c-2.6-2.6-3.8-5.6-3.8-9S9.4 5.6 12 3Z"/></svg>
+          <span>wereldbol</span>
+        </button>
+        <button type="button" role="radio" data-weergave="mercator" aria-checked="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="M3 12h18M9 5v14M15 5v14"/></svg>
+          <span>kaart</span>
+        </button>
+      </div>
+      <div class="zoom materiaal">
+        <button type="button" id="zoom-in" aria-label="Inzoomen">+</button>
+        <button type="button" id="zoom-uit" aria-label="Uitzoomen">−</button>
+        <button type="button" id="heel" aria-label="Hele wereld tonen" title="Hele wereld">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Op een groot scherm staan de vloot en de details los naast elkaar.
+         Op een telefoon zitten ze samen in een blad dat je omhoog kunt trekken. -->
+    <div class="blad" id="blad">
+      <div class="greep" id="greep" aria-hidden="true"><span></span></div>
+
+      <nav class="vloot materiaal" id="vloot-paneel" aria-label="De vloot">
+        <p class="kopje">de vloot <span class="aantal" id="vloot-aantal"></span></p>
+        <ul id="vloot"></ul>
+      </nav>
+
+      <section class="details" id="details" aria-live="polite" aria-label="Details van het schip" hidden></section>
+    </div>
 
     <p class="hint"><span class="toets">Esc</span> terug <span class="streep">\</span> <span class="hint-plek" id="hint-plek">zeekaart</span></p>
   </main>
 
-  <script src="js/leaflet.js"></script>
+  <script src="js/maplibre-gl.js"></script>
   <script src="js/land.js"></script>
   <script src="js/schepen.js"></script>
   <script src="js/kaart.js"></script>
