@@ -1,20 +1,26 @@
 # Gezonken Schatschepen
 
-Een interactieve wereldkaart van beroemde schepen die met hun buit zijn gezonken.
-Klik op een schip (op de kaart of in de lijst) en je ziet de route die het voer,
+Een interactieve wereldbol van beroemde schepen die met hun buit zijn gezonken.
+Klik op een schip (op de bol of in de lijst) en je ziet de route die het voer,
 waar het verging, het verhaal, de buit en wat er nog op de bodem ligt.
+
+Linksboven kies je tussen **wereldbol** (draaien zoals Google Earth) en **kaart**
+(de platte zeekaart). De website onthoudt je keuze. Met de pijltjes omhoog en omlaag,
+of de knoppen boven de details, blader je door de schepen; Esc sluit de details.
+Op een telefoon zitten de vloot en de details in een blad onderin dat je met je
+vinger omhoog en omlaag trekt.
 
 ## Hoe de website in elkaar zit
 
 | Bestand | Wat het doet |
 | --- | --- |
-| `index.html` | De pagina zelf: de kopregel, de kaart en het paneel rechts. |
-| `css/style.css` | De opmaak: kleuren, lettertypes, indeling (ook de donkere modus). |
+| `index.html` | De pagina zelf: de kopregel, de bol, de knoppen en de panelen. |
+| `css/style.css` | De opmaak: kleuren, lettertypes, het doorschijnende glas van de panelen, de indeling op telefoon en computer. |
 | `js/schepen.js` | **Alle schepen en hun verhalen.** Dit is het bestand dat je het vaakst aanpast. |
-| `js/kaart.js` | Tekent de kaart, de markers, de routes en het paneel. |
+| `js/kaart.js` | Tekent de bol, de scheepjes, de routes en de panelen, en het blad op de telefoon. |
 | `img/` | Een schilderij of foto per schip. |
 | `js/land.js` | De vorm van alle continenten (Natural Earth, vrij te gebruiken). |
-| `js/leaflet.js`, `css/leaflet.css` | Leaflet, de gratis bibliotheek die de kaart laat zoomen en slepen. |
+| `js/maplibre-gl.js`, `css/maplibre-gl.css` | MapLibre, de gratis bibliotheek die de wereldbol tekent en laat draaien en zoomen. Er is geen sleutel of account voor nodig. |
 
 ## Een schip toevoegen
 
@@ -32,7 +38,7 @@ De lijst sorteert zichzelf op jaartal, en de filterknoppen tellen vanzelf mee.
 
 ## Bekijken op je eigen computer
 
-Dubbelklik op `index.html`. De kaart werkt meteen in je browser.
+Dubbelklik op `index.html`. De bol werkt meteen in je browser.
 
 ## Publiceren met GitHub Pages
 
@@ -75,6 +81,12 @@ in het paneel loopt van het wateroppervlak tot 3 km diep en is logaritmisch: 1, 
 en 1000 meter staan even ver uit elkaar, zodat je ondiepe en diepe wrakken allebei goed
 ziet. De stippellijn bij 40 meter is ongeveer hoe diep sportduikers kunnen komen.
 De balk boven de diepte krijgt dezelfde kleur als het water in de meter op die diepte.
+
+## Rekening houden met iedereen
+
+De website volgt een paar instellingen van je telefoon of computer: bij *minder beweging*
+schuift en veert er niets meer, bij *minder doorzichtigheid* worden de panelen stevig in
+plaats van glas, en bij *meer contrast* krijgen ze een duidelijke rand.
 
 ## Let op
 
