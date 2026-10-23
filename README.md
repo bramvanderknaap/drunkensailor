@@ -70,11 +70,12 @@ daarom kunnen ze flink verschillen.
 
 ## Eerbetoon
 
-Onderaan de vloot staat, onder het kopje *eerbetoon*, de Edmund Fitzgerald. Dat is geen
+Tussen de schepen staat, een beetje als easter egg, de Edmund Fitzgerald. Dat is geen
 schatschip, maar een eerbetoon aan de 29 mannen die er in 1975 met het schip vergingen.
-Een schip met `status: "eerbetoon"` krijgt een gouden vrachtschip als teken, een vak
-*in memoriam* (de tekst bij `eerbetoon.herdenking`) en bij de buit de lading in ton
-(`schatting.soort` zegt wat het was) in plaats van een bedrag in euro.
+Een schip met een blok `eerbetoon` krijgt een klein gouden vrachtschip als teken. Pas in
+de details zie je dat het een eerbetoon is: dan staat er een vak *in memoriam* (de tekst
+bij `eerbetoon.herdenking`) en bij de buit de lading in ton (`schatting.soort` zegt wat
+het was) in plaats van een bedrag in euro.
 
 ## Namen van zeeën en oceanen
 
