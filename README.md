@@ -19,6 +19,7 @@ vinger omhoog en omlaag trekt.
 | `js/schepen.js` | **Alle schepen en hun verhalen.** Dit is het bestand dat je het vaakst aanpast. |
 | `js/kaart.js` | Tekent de bol, de scheepjes, de routes en de panelen, en het blad op de telefoon. |
 | `img/` | Een schilderij of foto per schip. |
+| `geluid/` | Geluidsfragmenten (bij `eerbetoon.lied` in `js/schepen.js`). |
 | `js/land.js` | De vorm van alle continenten (Natural Earth, vrij te gebruiken). |
 | `js/meren.js` | De Grote Meren in Noord-Amerika, die als water over het land heen worden getekend (ook Natural Earth). |
 | `js/maplibre-gl.js`, `css/maplibre-gl.css` | MapLibre, de gratis bibliotheek die de wereldbol tekent en laat draaien en zoomen. Er is geen sleutel of account voor nodig. |
@@ -76,6 +77,11 @@ Een schip met een blok `eerbetoon` krijgt een klein gouden vrachtschip als teken
 de details zie je dat het een eerbetoon is: dan staat er een vak *in memoriam* (de tekst
 bij `eerbetoon.herdenking`) en bij de buit de lading in ton (`schatting.soort` zegt wat
 het was) in plaats van een bedrag in euro.
+
+Kies je de Edmund Fitzgerald, dan speelt een kort fragment van *The Wreck of the Edmund
+Fitzgerald* (Gordon Lightfoot), door Abraham zelf op gitaar gespeeld (`geluid/`). Met het
+luidsprekertje boven de details zet je het geluid uit; de website onthoudt dat. Kies je
+een ander schip of sluit je de details, dan stopt het fragment met een korte fade.
 
 ## Namen van zeeën en oceanen
 

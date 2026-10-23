@@ -364,6 +364,7 @@
         </button>
         <span class="plek" aria-label="Schip ${plek} van ${lijst.length}">${plek} van ${lijst.length}</span>
         <div class="stappen">
+          ${eer && eer.lied ? `<button type="button" class="lied-knop" aria-pressed="false" aria-label="Speel het lied" title="Speel het lied"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="golf" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/><path class="streep" d="M16 9l6 6M22 9l-6 6"/></svg></button>` : ""}
           <button type="button" data-stap="-1" aria-label="Vorig schip" title="Vorig schip (↑)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg></button>
           <button type="button" data-stap="1" aria-label="Volgend schip" title="Volgend schip (↓)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
           <button type="button" class="sluit-x" data-actie="sluit" aria-label="Details sluiten" title="Sluiten (Esc)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
@@ -381,6 +382,10 @@
         <p class="verhaal">${esc(s.verhaal)}</p>
       </div>
       ${eer ? `<div class="vak herdenking"><p class="label">in memoriam</p><p>${esc(eer.herdenking)}</p></div>` : ""}
+      ${eer && eer.lied ? `<div class="vak lied">
+        <p class="lied-kop"><span class="label">${esc(eer.lied.titel)}</span><span class="klein">${esc(eer.lied.maker)}</span></p>
+        ${eer.lied.youtube ? `<p class="klein"><a href="https://www.youtube.com/watch?v=${esc(eer.lied.youtube)}" target="_blank" rel="noopener">Luister het hele lied op YouTube</a></p>` : ""}
+      </div>` : ""}
       <div class="duo">
         <div class="vak"><span class="label">${eer ? "lading" : "buit"}</span><div class="balkje"></div>
           <span class="bedrag">${esc(sch.totaal)}</span><span class="klein">${eer ? esc(sch.soort) : "hele lading, in geld van nu"}</span>
@@ -417,6 +422,54 @@
     details.querySelectorAll("[data-stap]").forEach(k => k.addEventListener("click", () => stap(+k.dataset.stap)));
     openDetails();
     details.scrollTop = 0;
+    startLied(s);
+  }
+
+  // ---------- het lied (alleen bij een eerbetoon met een lied) ----------
+  // Een kort geluidsfragment dat speelt zodra je het schip kiest. Het stopt
+  // (met een zachte fade) zodra je een ander schip kiest of de details
+  // sluit. Wie het geluid uitzet, krijgt het de volgende keer niet vanzelf.
+  let geluid = null;
+  function liedMag() { try { return localStorage.getItem("schatschepen-lied") !== "uit"; } catch (e) { return true; } }
+  function onthoudLied(aan) { try { localStorage.setItem("schatschepen-lied", aan ? "aan" : "uit"); } catch (e) {} }
+  function startLied(s) {
+    const lied = s.eerbetoon && s.eerbetoon.lied;
+    if (!lied) return;
+    const knop = details.querySelector(".lied-knop");
+    const zetKnop = speelt => {
+      const tekst = speelt ? "Geluid uit" : "Speel het lied";
+      knop.setAttribute("aria-pressed", String(speelt));
+      knop.setAttribute("aria-label", tekst);
+      knop.title = tekst;
+    };
+    const audio = new Audio(lied.bestand);
+    geluid = audio;
+    audio.addEventListener("playing", () => zetKnop(true));
+    audio.addEventListener("pause", () => zetKnop(false));
+    audio.addEventListener("ended", () => zetKnop(false));
+    audio.addEventListener("error", () => knop.remove());
+    knop.addEventListener("click", () => {
+      const aan = audio.paused;
+      onthoudLied(aan);
+      if (aan) { audio.volume = 1; if (audio.ended) audio.currentTime = 0; audio.play().catch(() => {}); }
+      else audio.pause();
+    });
+    // De browser kan het afspelen tegenhouden (bijvoorbeeld als je de site
+    // opent met #edmund-fitzgerald in het adres). Dan wacht de knop op een tik.
+    if (liedMag()) audio.play().catch(() => {});
+  }
+  function stopLied() {
+    if (!geluid) return;
+    const audio = geluid;
+    geluid = null;
+    if (audio.paused || !beweging()) { audio.pause(); return; }
+    const begin = audio.volume, t0 = performance.now();
+    const tik = nu => {
+      const p = Math.min(1, (nu - t0) / 600);
+      audio.volume = begin * (1 - p);
+      if (p < 1) requestAnimationFrame(tik); else audio.pause();
+    };
+    requestAnimationFrame(tik);
   }
 
   // De details schuiven van rechts in beeld en ook weer naar rechts weg
@@ -437,6 +490,7 @@
 
   // ---------- een schip kiezen ----------
   function kies(id) {
+    stopLied();
     const vorige = gekozen;
     gekozen = SCHEPEN.find(s => s.id === id) || null;
     teken();
