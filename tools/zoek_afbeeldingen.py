@@ -4,10 +4,7 @@ import json, os, re, time, urllib.parse, urllib.request
 
 UA = "drunkensailor-kaart/1.0 (https://github.com/bramvanderknaap/drunkensailor)"
 BRONNEN = {
-  "voc": ["zoek:Ludolf Bakhuysen Dutch East Indiamen filetype:bitmap", "zoek:East Indiaman Dutch East India Company painting 17th century filetype:bitmap", "zoek:Hendrick Cornelisz Vroom ships filetype:bitmap", "zoek:Abraham Storck VOC ship filetype:bitmap", "zoek:retourschip VOC schilderij filetype:bitmap"],
-  "galjoen": ["zoek:Spanish galleon painting filetype:bitmap", "zoek:Andries van Eertvelt galleons storm filetype:bitmap", "zoek:Spanish treasure fleet painting filetype:bitmap", "zoek:galeón español pintura siglo XVII filetype:bitmap", "zoek:Aert Anthonisz Spanish ships filetype:bitmap"],
-  "engels": ["zoek:Willem van de Velde English ship 1640s filetype:bitmap", "zoek:English merchant ship 17th century painting filetype:bitmap", "zoek:English East Indiaman 1640 painting filetype:bitmap"],
-  "extra": ["file:SSCentralAmerica.jpg", "file:Lutine1.jpg", "file:Laurentic (I).jpg", "file:Gilt Dragon 2.jpg", "file:HMS Sussex (80) model starboard broadside.jpg"],
+  "fitzgerald": ["en:SS Edmund Fitzgerald", "cat:Edmund Fitzgerald (ship, 1958)", "zoek:Edmund Fitzgerald ship filetype:bitmap", "zoek:Edmund Fitzgerald freighter 1975 filetype:bitmap"],
 }
 SKIP = re.compile(r"(\.svg$|\.ogg$|\.webm$|flag|commons-logo|icon|symbol|wiki|edit-clear|question_book|map|locator|disambig)", re.I)
 
