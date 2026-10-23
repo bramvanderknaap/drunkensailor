@@ -23,10 +23,11 @@
 //  diepte: meters = hoe diep het wrak (waarschijnlijk) ligt, voor de
 //          dieptemeter (null als niemand het weet), kort = wat er groot
 //          staat, tekst = uitleg, bron = [titel, link].
-//  eerbetoon: (alleen bij status eerbetoon) geen schatschip maar een
-//          eerbetoon. Het krijgt een gouden vrachtschip als teken, en
-//          herdenking = een tekst ter nagedachtenis. Bij de schatting
-//          staat dan in soort wat de lading was.
+//  eerbetoon: (mag weg) geen schatschip maar een eerbetoon, een soort
+//          easter egg. Het staat gewoon tussen de andere schepen, maar
+//          krijgt een klein gouden vrachtschip als teken. Pas in de details
+//          zie je dat het een eerbetoon is. herdenking = een tekst ter
+//          nagedachtenis. Bij de schatting staat dan in soort wat de lading was.
 // ===================================================================
 
 // De prijzen waarmee de schattingen zijn berekend (metaalwaarde).
@@ -41,8 +42,7 @@ window.STATUSSEN = {
   onzeker:  { naam: "Wrak niet definitief geïdentificeerd", kort: "onzeker",        kleur: "#c9a2ff", gloed: "rgba(201,162,255,.5)" },
   gevonden: { naam: "Ontdekt, vrijwel niet geborgen",       kort: "gevonden",       kleur: "#ffa94d", gloed: "rgba(255,169,77,.5)" },
   deels:    { naam: "Ontdekt, gedeeltelijk geborgen",       kort: "deels geborgen", kleur: "#8cc0ff", gloed: "rgba(140,192,255,.5)" },
-  geborgen: { naam: "Ontdekt, vrijwel volledig geborgen",   kort: "geborgen",       kleur: "#f5f2e6", gloed: "rgba(245,242,230,.45)" },
-  eerbetoon: { naam: "Eerbetoon (honorable mention)",       kort: "eerbetoon",      kleur: "#f4c24f", gloed: "rgba(244,194,79,.75)" }
+  geborgen: { naam: "Ontdekt, vrijwel volledig geborgen",   kort: "geborgen",       kleur: "#f5f2e6", gloed: "rgba(245,242,230,.45)" }
 };
 
 const WRAK = "WRAK";
@@ -620,7 +620,7 @@ window.SCHEPEN = [
     naam: "Edmund Fitzgerald",
     jaar: 1975,
     land: "Verenigde Staten",
-    status: "eerbetoon",
+    status: "gevonden",
     route: "Superior (Wisconsin) → Detroit (Zug Island), over het Bovenmeer, de St. Marysrivier en het Huronmeer.",
     locatie: "Bovenmeer (Lake Superior), ongeveer 27 km van Whitefish Bay, in Canadese wateren.",
     verhaal: "Op 9 november 1975 vertrok de ‘Mighty Fitz’, bij haar tewaterlating het grootste schip op de Grote Meren, uit Superior met 26.000 ton ijzererts. Samen met de Arthur M. Anderson voer kapitein Ernest McSorley een zware novemberstorm in, met orkaanstoten en golven tot 11 meter hoog. Op 10 november raakte de Fitzgerald beschadigd, ging ze scheef liggen en viel haar radar uit. De Anderson bleef achter haar en loodste haar per radio door de storm. Rond 19.10 uur meldde de Fitzgerald nog rustig: “We are holding our own.” Kort daarna verdween het schip van het radarscherm, zonder noodsignaal. Alle 29 mannen aan boord kwamen om. Terwijl andere schepen een veilige haven zochten, keerde de bemanning van de Anderson op verzoek van de kustwacht midden in de storm om om te zoeken. Er werd niemand gevonden.",

@@ -27,16 +27,17 @@
 
   // Een vrachtschip van de Grote Meren: stuurhut voorop, een lang dek met
   // luiken en achterop de machinekamer met de schoorsteen. Alleen voor de
-  // schepen die er als eerbetoon op staan.
+  // schepen die er als eerbetoon op staan (zie eerbetoon in js/schepen.js).
   const VRACHT_SVG = `<svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor" fill-rule="evenodd">
     <path d="M1 19.2h30.6l-2.4 6.8H3.4L1 22z"/>
     <path d="M23.2 13.4h7v5.8h-7zM24.2 9.4h5.2v4h-5.2zM24.9 10.3h3.8v1.3h-3.8z"/>
-    <rect x="27.5" y="4" width="0.9" height="5.4"/>
+    <rect x="27.5" y="6.6" width="0.9" height="2.8"/>
     <path d="M1.8 13.8h7.6v5.4H1.8zM2.8 11.2h5.6v2.6H2.8z"/>
-    <path d="M4 5.6h3l-.3 5.6H4.3z"/>
+    <path d="M4 8.2h3l-.2 3H4.2z"/>
     <path d="M10.8 17.9h2v1.3h-2zM13.6 17.9h2v1.3h-2zM16.4 17.9h2v1.3h-2zM19.2 17.9h2v1.3h-2z"/>
   </svg>`;
-  const icoon = status => (status === "eerbetoon" ? VRACHT_SVG : SCHIP_SVG);
+  const GOUD = "#f4c24f";
+  const icoon = s => (s.eerbetoon ? VRACHT_SVG : SCHIP_SVG);
 
   // ---------- weergave: wereldbol of platte kaart ----------
   // De keuze wordt onthouden in de browser (als dat mag).
@@ -237,11 +238,11 @@
     const st = STATUSSEN[s.status];
     const el = document.createElement("button");
     el.type = "button";
-    el.className = "schip-icoon" + (s.status === "eerbetoon" ? " eerbetoon" : "");
+    el.className = "schip-icoon" + (s.eerbetoon ? " eerbetoon" : "");
     el.setAttribute("aria-label", `${s.naam} (${s.jaar})`);
-    el.style.setProperty("--kleur", st.kleur);
-    el.style.setProperty("--gloed", st.gloed);
-    el.innerHTML = `${icoon(s.status)}<span class="schip-tip">${esc(s.naam)} · ${s.jaar}</span>`;
+    el.style.setProperty("--kleur", s.eerbetoon ? GOUD : st.kleur);
+    el.style.setProperty("--gloed", s.eerbetoon ? "rgba(244,194,79,.6)" : st.gloed);
+    el.innerHTML = `${icoon(s)}<span class="schip-tip">${esc(s.naam)} · ${s.jaar}</span>`;
     el.addEventListener("click", e => { e.stopPropagation(); kies(s.id); });
     markers[s.id] = new maplibregl.Marker({ element: el, offset: [0, -8], opacityWhenCovered: 0 }).setLngLat([s.wrak[1], s.wrak[0]]);
   });
@@ -261,7 +262,7 @@
     knop.title = st.naam;
     knop.style.setProperty("--kleur", st.kleur);
     knop.setAttribute("aria-pressed", "true");
-    knop.innerHTML = `${icoon(sleutel)}<span class="getal">${aantal}</span><span class="naam">${esc(st.kort)}</span>`;
+    knop.innerHTML = `${SCHIP_SVG}<span class="getal">${aantal}</span><span class="naam">${esc(st.kort)}</span>`;
     knop.addEventListener("click", () => {
       if (actieveStatussen.has(sleutel)) actieveStatussen.delete(sleutel);
       else actieveStatussen.add(sleutel);
@@ -296,11 +297,9 @@
   const vloot = document.getElementById("vloot");
   function tekenVloot(lijst) {
     document.getElementById("vloot-aantal").textContent = lijst.length;
-    // De eerbetonen staan los onderaan, onder een eigen kopje.
-    const eerste = lijst.find(s => s.status === "eerbetoon");
-    vloot.innerHTML = lijst.length ? lijst.map(s => `${s === eerste ? `<li class="eer-kop" aria-hidden="true">eerbetoon</li>` : ""}
-      <li><button class="vloot-knop" type="button" data-id="${s.id}" aria-current="${!!gekozen && gekozen.id === s.id}" style="--kleur:${STATUSSEN[s.status].kleur}">
-        ${icoon(s.status)}<span>${esc(s.naam)}</span><span class="jaar">${s.jaar}</span>
+    vloot.innerHTML = lijst.length ? lijst.map(s => `
+      <li><button class="vloot-knop" type="button" data-id="${s.id}" aria-current="${!!gekozen && gekozen.id === s.id}" style="--kleur:${s.eerbetoon ? GOUD : STATUSSEN[s.status].kleur}">
+        ${icoon(s)}<span>${esc(s.naam)}</span><span class="jaar">${s.jaar}</span>
       </button></li>`).join("")
       : `<li class="leeg">Geen schepen met deze status.</li>`;
     vloot.querySelectorAll(".vloot-knop").forEach(k => k.addEventListener("click", () => kies(k.dataset.id)));
@@ -377,7 +376,8 @@
       <div class="vak">
         <h2>${esc(s.naam)}</h2>
         <p class="meta">${s.jaar} · ${esc(s.land)}</p>
-        <div class="status" style="--kleur:${st.kleur}">${icoon(s.status)}<span>${esc(st.naam)}</span></div>
+        <div class="status" style="--kleur:${st.kleur}">${SCHIP_SVG}<span>${esc(st.naam)}</span></div>
+        ${eer ? `<div class="status eer" style="--kleur:${GOUD}">${VRACHT_SVG}<span>Eerbetoon · honorable mention</span></div>` : ""}
         <p class="verhaal">${esc(s.verhaal)}</p>
       </div>
       ${eer ? `<div class="vak herdenking"><p class="label">in memoriam</p><p>${esc(eer.herdenking)}</p></div>` : ""}
@@ -404,7 +404,7 @@
           <p>${esc(s.diepte.tekst)}</p>
           <p class="bronnen"><a href="${esc(s.diepte.bron[1])}" target="_blank" rel="noopener">${esc(s.diepte.bron[0])}</a></p>
         </div>
-        ${dieptemeter(s.diepte.meters, icoon(s.status))}
+        ${dieptemeter(s.diepte.meters, icoon(s))}
       </div>
       <dl class="vak feiten">
         ${feiten.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}
