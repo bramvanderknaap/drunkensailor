@@ -28,6 +28,9 @@
 //          krijgt een klein gouden vrachtschip als teken. Pas in de details
 //          zie je dat het een eerbetoon is. herdenking = een tekst ter
 //          nagedachtenis. Bij de schatting staat dan in soort wat de lading was.
+//          lied = een kort geluidsfragment (in de map geluid/) dat speelt
+//          zodra je het schip kiest; youtube = de code achter ?v= in de link
+//          naar het hele lied.
 // ===================================================================
 
 // De prijzen waarmee de schattingen zijn berekend (metaalwaarde).
@@ -634,7 +637,13 @@ window.SCHEPEN = [
       ["De scheepsbel", "In 1995 opgehaald en vervangen door een kopie met de namen van de bemanning. De echte bel hangt in het Great Lakes Shipwreck Museum op Whitefish Point."]
     ],
     eerbetoon: {
-      herdenking: "Elk jaar op 10 november luidt het Great Lakes Shipwreck Museum de scheepsbel 29 keer, één keer voor ieder bemanningslid, en nog één keer voor alle zeelieden die op de Grote Meren zijn gebleven."
+      herdenking: "Elk jaar op 10 november luidt het Great Lakes Shipwreck Museum de scheepsbel 29 keer, één keer voor ieder bemanningslid, en nog één keer voor alle zeelieden die op de Grote Meren zijn gebleven.",
+      lied: {
+        titel: "The Wreck of the Edmund Fitzgerald",
+        maker: "Gordon Lightfoot (1976), op gitaar gespeeld door Abraham",
+        bestand: "geluid/edmund-fitzgerald.mp3",
+        youtube: "FuzTkGyxkYI"
+      }
     },
     schatting: {
       totaal: "26.000 ton",
