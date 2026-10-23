@@ -162,8 +162,8 @@ svg { flex: none; }
 }
 @keyframes doelwit { 50% { transform: scale(1.15); opacity: 0.6; } }
 
-/* Het eerbetoon: een klein gouden vrachtschip, even groot als de rest. */
-.schip-icoon.eerbetoon { width: 30px; height: 30px; }
+/* Het eerbetoon: een klein gouden vrachtschip, kleiner dan de rest (een easter egg). */
+.schip-icoon.eerbetoon { width: 22px; height: 22px; }
 
 /* ---------- bovenbalk (zweeft boven de kaart) ---------- */
 .balk {
