@@ -162,6 +162,15 @@ svg { flex: none; }
 }
 @keyframes doelwit { 50% { transform: scale(1.15); opacity: 0.6; } }
 
+/* Het eerbetoon: een gouden vrachtschip dat zacht gloeit, iets groter
+   dan de schatschepen zodat het opvalt. */
+.schip-icoon.eerbetoon { width: 34px; height: 34px; }
+.schip-icoon.eerbetoon svg {
+  filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 6px var(--gloed));
+  animation: eregloed 3.2s ease-in-out infinite;
+}
+@keyframes eregloed { 50% { filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.9)) drop-shadow(0 0 12px var(--gloed)); } }
+
 /* ---------- bovenbalk (zweeft boven de kaart) ---------- */
 .balk {
   position: absolute; z-index: 5; top: 0; left: 0; right: 0;
@@ -273,6 +282,10 @@ svg { flex: none; }
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 .vloot-knop[aria-current="true"] .jaar { color: #2b2610; text-shadow: none; font-weight: 600; }
+.eer-kop {
+  margin: 10px 0 2px; padding: 8px 0 0 22px; border-top: 1px solid var(--rand);
+  font-size: 0.8rem; font-weight: 400; letter-spacing: 0.08em; text-transform: uppercase; color: var(--goud);
+}
 .leeg { padding-left: 22px; color: var(--tekst-zacht); font-style: italic; }
 
 /* ---------- details (rechts) ---------- */
@@ -338,6 +351,9 @@ svg { flex: none; }
 .stipjes { display: inline-flex; gap: 3px; }
 .stipjes i { width: 14px; height: 5px; border-radius: 1px; background: rgba(255, 255, 255, 0.18); }
 .stipjes i.aan { background: var(--goud); box-shadow: 0 0 6px rgba(244, 194, 79, 0.5); }
+.herdenking { border-color: rgba(244, 194, 79, 0.45); box-shadow: inset 0 1px 0 var(--licht-rand), 0 0 18px rgba(244, 194, 79, 0.12); }
+.herdenking p { margin: 0; line-height: 1.5; }
+.herdenking .label { margin-bottom: 6px; font-size: 0.8rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--goud); }
 .geschat p { margin: 0 0 8px; }
 .geschat p:last-child { margin-bottom: 0; }
 .geschat .label { font-size: 0.95rem; color: var(--goud-licht); }
@@ -463,7 +479,7 @@ svg { flex: none; }
 /* ---------- toegankelijkheid ---------- */
 /* Minder beweging: geen schuiven of veren, alleen rustig vervagen. */
 @media (prefers-reduced-motion: reduce) {
-  .schip-icoon.gekozen::before { animation: none; }
+  .schip-icoon.gekozen::before, .schip-icoon.eerbetoon svg { animation: none; }
   .schip-icoon svg, .schip-tip { transition: none; }
   .details { transform: none; filter: none; transition: opacity 200ms ease; }
 }

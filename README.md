@@ -20,6 +20,7 @@ vinger omhoog en omlaag trekt.
 | `js/kaart.js` | Tekent de bol, de scheepjes, de routes en de panelen, en het blad op de telefoon. |
 | `img/` | Een schilderij of foto per schip. |
 | `js/land.js` | De vorm van alle continenten (Natural Earth, vrij te gebruiken). |
+| `js/meren.js` | De Grote Meren in Noord-Amerika, die als water over het land heen worden getekend (ook Natural Earth). |
 | `js/maplibre-gl.js`, `css/maplibre-gl.css` | MapLibre, de gratis bibliotheek die de wereldbol tekent en laat draaien en zoomen. Er is geen sleutel of account voor nodig. |
 
 ## Een schip toevoegen
@@ -66,6 +67,14 @@ Dit is de waarde van het goud en zilver tegen de prijs van 14 oktober 2026
 Oude munten en voorwerpen zijn voor verzamelaars vaak veel meer waard. Veel bedragen die
 je online ziet tellen die verzamelwaarde mee, of rekenen een oud bedrag om met inflatie;
 daarom kunnen ze flink verschillen.
+
+## Eerbetoon
+
+Onderaan de vloot staat, onder het kopje *eerbetoon*, de Edmund Fitzgerald. Dat is geen
+schatschip, maar een eerbetoon aan de 29 mannen die er in 1975 met het schip vergingen.
+Een schip met `status: "eerbetoon"` krijgt een gouden vrachtschip als teken, een vak
+*in memoriam* (de tekst bij `eerbetoon.herdenking`) en bij de buit de lading in ton
+(`schatting.soort` zegt wat het was) in plaats van een bedrag in euro.
 
 ## Namen van zeeën en oceanen
 
