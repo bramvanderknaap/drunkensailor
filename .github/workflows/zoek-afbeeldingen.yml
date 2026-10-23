@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: UIT=kandidaten3 python3 tools/zoek_afbeeldingen.py
+      - run: python3 tools/zoek_youtube.py
       - run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898283+github-actions[bot]@users.noreply.github.com"
-          git add kandidaten*
+          git add kandidaten* youtube.json
           git commit -m "Kandidaat-afbeeldingen [skip ci]" || echo "niets nieuws"
           git push
