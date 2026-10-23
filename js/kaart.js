@@ -25,6 +25,19 @@
     <path d="M16.6 3h3.2l-.8.9.8.9h-3.2z"/>
   </svg>`;
 
+  // Een vrachtschip van de Grote Meren: stuurhut voorop, een lang dek met
+  // luiken en achterop de machinekamer met de schoorsteen. Alleen voor de
+  // schepen die er als eerbetoon op staan.
+  const VRACHT_SVG = `<svg viewBox="0 0 32 32" aria-hidden="true" fill="currentColor" fill-rule="evenodd">
+    <path d="M1 19.2h30.6l-2.4 6.8H3.4L1 22z"/>
+    <path d="M23.2 13.4h7v5.8h-7zM24.2 9.4h5.2v4h-5.2zM24.9 10.3h3.8v1.3h-3.8z"/>
+    <rect x="27.5" y="4" width="0.9" height="5.4"/>
+    <path d="M1.8 13.8h7.6v5.4H1.8zM2.8 11.2h5.6v2.6H2.8z"/>
+    <path d="M4 5.6h3l-.3 5.6H4.3z"/>
+    <path d="M10.8 17.9h2v1.3h-2zM13.6 17.9h2v1.3h-2zM16.4 17.9h2v1.3h-2zM19.2 17.9h2v1.3h-2z"/>
+  </svg>`;
+  const icoon = status => (status === "eerbetoon" ? VRACHT_SVG : SCHIP_SVG);
+
   // ---------- weergave: wereldbol of platte kaart ----------
   // De keuze wordt onthouden in de browser (als dat mag).
   let weergave = "globe";
@@ -82,6 +95,11 @@
   });
   const LAND = { type: "Feature", properties: {}, geometry: { type: "MultiPolygon", coordinates: landVlakken } };
   const KUST = { type: "Feature", properties: {}, geometry: { type: "MultiLineString", coordinates: kustLijnen } };
+  // De Grote Meren (js/meren.js) liggen bovenop het land, in de kleur van
+  // het water, met hun oevers als kustlijn.
+  const MEREN = window.MEREN;
+  const OEVERS = { type: "FeatureCollection", features: MEREN.features.map(f => ({ type: "Feature", properties: {},
+    geometry: { type: "MultiLineString", coordinates: f.geometry.type === "Polygon" ? f.geometry.coordinates : [].concat(...f.geometry.coordinates) } })) };
 
   const WATER_KLEUR = "#134443";
   const kaart = new maplibregl.Map({
@@ -101,6 +119,8 @@
       sources: {
         land: { type: "geojson", data: LAND },
         kust: { type: "geojson", data: KUST },
+        meren: { type: "geojson", data: MEREN },
+        oevers: { type: "geojson", data: OEVERS },
         raster: { type: "geojson", data: { type: "FeatureCollection", features: raster } },
         achter: { type: "geojson", data: leeg },
         gevaren: { type: "geojson", data: leeg },
@@ -113,6 +133,9 @@
           "line-opacity": ["case", ["==", ["get", "evenaar"], true], 0.14, 0.07], "line-width": 1 } },
         { id: "kust-gloed", type: "line", source: "kust", paint: { "line-color": "#6edcc8", "line-width": 5, "line-blur": 4, "line-opacity": 0.3 } },
         { id: "land", type: "fill", source: "land", paint: { "fill-color": "#0c2d2c", "fill-antialias": true } },
+        { id: "meren", type: "fill", source: "meren", paint: { "fill-color": WATER_KLEUR, "fill-antialias": true } },
+        { id: "oever-gloed", type: "line", source: "oevers", paint: { "line-color": "#6edcc8", "line-width": 4, "line-blur": 3, "line-opacity": 0.22 } },
+        { id: "oevers", type: "line", source: "oevers", paint: { "line-color": "#4f9f8f", "line-width": 0.8, "line-opacity": 0.8 } },
         { id: "kust", type: "line", source: "kust", paint: { "line-color": "#4f9f8f", "line-width": 0.8, "line-opacity": 0.8 } },
         { id: "achter", type: "line", source: "achter", layout: { "line-cap": "round" },
           paint: { "line-color": "#f4c24f", "line-width": 2, "line-dasharray": [0, 4], "line-opacity": 0.32 } },
@@ -164,7 +187,10 @@
 
     ["Het Kanaal", 50.15, -2, "klein", -12], ["Keltische Zee", 51, -8.6, "klein"], ["Ierse Zee", 53.75, -4.9, "klein"],
     ["Perzische Golf", 27, 51.5, "klein", 32], ["Straat Malakka", 2.8, 100.8, "klein", 40],
-    ["Kanaal van\nMozambique", -18.5, 41.2, "klein"]
+    ["Kanaal van\nMozambique", -18.5, 41.2, "klein"],
+
+    ["Bovenmeer", 47.75, -88.2, "zee"], ["Michiganmeer", 43.9, -87.05, "klein", 80], ["Huronmeer", 44.75, -82.35, "klein", 70],
+    ["Eriemeer", 42.2, -81.2, "klein", -20], ["Ontariomeer", 43.6, -77.9, "klein", -8]
   ];
   ZEEEN.forEach(([naam, lat, lon, soort, draai = 0]) => {
     const el = document.createElement("div");
@@ -211,11 +237,11 @@
     const st = STATUSSEN[s.status];
     const el = document.createElement("button");
     el.type = "button";
-    el.className = "schip-icoon";
+    el.className = "schip-icoon" + (s.status === "eerbetoon" ? " eerbetoon" : "");
     el.setAttribute("aria-label", `${s.naam} (${s.jaar})`);
     el.style.setProperty("--kleur", st.kleur);
     el.style.setProperty("--gloed", st.gloed);
-    el.innerHTML = `${SCHIP_SVG}<span class="schip-tip">${esc(s.naam)} · ${s.jaar}</span>`;
+    el.innerHTML = `${icoon(s.status)}<span class="schip-tip">${esc(s.naam)} · ${s.jaar}</span>`;
     el.addEventListener("click", e => { e.stopPropagation(); kies(s.id); });
     markers[s.id] = new maplibregl.Marker({ element: el, offset: [0, -8], opacityWhenCovered: 0 }).setLngLat([s.wrak[1], s.wrak[0]]);
   });
@@ -235,7 +261,7 @@
     knop.title = st.naam;
     knop.style.setProperty("--kleur", st.kleur);
     knop.setAttribute("aria-pressed", "true");
-    knop.innerHTML = `${SCHIP_SVG}<span class="getal">${aantal}</span><span class="naam">${esc(st.kort)}</span>`;
+    knop.innerHTML = `${icoon(sleutel)}<span class="getal">${aantal}</span><span class="naam">${esc(st.kort)}</span>`;
     knop.addEventListener("click", () => {
       if (actieveStatussen.has(sleutel)) actieveStatussen.delete(sleutel);
       else actieveStatussen.add(sleutel);
@@ -270,9 +296,11 @@
   const vloot = document.getElementById("vloot");
   function tekenVloot(lijst) {
     document.getElementById("vloot-aantal").textContent = lijst.length;
-    vloot.innerHTML = lijst.length ? lijst.map(s => `
+    // De eerbetonen staan los onderaan, onder een eigen kopje.
+    const eerste = lijst.find(s => s.status === "eerbetoon");
+    vloot.innerHTML = lijst.length ? lijst.map(s => `${s === eerste ? `<li class="eer-kop" aria-hidden="true">eerbetoon</li>` : ""}
       <li><button class="vloot-knop" type="button" data-id="${s.id}" aria-current="${!!gekozen && gekozen.id === s.id}" style="--kleur:${STATUSSEN[s.status].kleur}">
-        ${SCHIP_SVG}<span>${esc(s.naam)}</span><span class="jaar">${s.jaar}</span>
+        ${icoon(s.status)}<span>${esc(s.naam)}</span><span class="jaar">${s.jaar}</span>
       </button></li>`).join("")
       : `<li class="leeg">Geen schepen met deze status.</li>`;
     vloot.querySelectorAll(".vloot-knop").forEach(k => k.addEventListener("click", () => kies(k.dataset.id)));
@@ -306,14 +334,14 @@
     const kleur = rgb(waterKleur(+hoogte(m)));
     return `<div class="balkje water" style="background:${kleur};--gloed:${kleur}"></div>`;
   }
-  function dieptemeter(m) {
+  function dieptemeter(m, svg = SCHIP_SVG) {
     const streepjes = [[1, "oppervlak"], [10, "10 m"], [100, "100 m"], [1000, "1 km"]];
     return `<div class="meter" aria-hidden="true">
       <span class="water" style="background:${waterVerloop("180deg")}"></span>
       ${streepjes.map(([d, t]) => `<span class="streep" style="top:${hoogte(d)}%">${t}</span>`).join("")}
       <span class="duikers" style="top:${hoogte(40)}%">duikers</span>
       ${m == null ? `<span class="wrak onbekend" style="top:50%">?</span>`
-                  : `<span class="wrak" style="top:${hoogte(m)}%">${SCHIP_SVG}</span>`}
+                  : `<span class="wrak" style="top:${hoogte(m)}%">${svg}</span>`}
     </div>`;
   }
   function toonDetails(s) {
@@ -326,6 +354,8 @@
     const procent = sch.deel >= 0.995 ? "vrijwel de hele buit"
       : sch.deel < 0.01 ? "minder dan 1% van de buit"
       : `ca. ${Math.max(5, Math.round(sch.deel * 20) * 5)}% van de buit`;
+    // Bij een eerbetoon gaat het om de lading (in ton), niet om geld.
+    const eer = s.eerbetoon;
     const lijst = zichtbaar();
     const plek = lijst.indexOf(s) + 1;
     details.innerHTML = `
@@ -347,23 +377,24 @@
       <div class="vak">
         <h2>${esc(s.naam)}</h2>
         <p class="meta">${s.jaar} · ${esc(s.land)}</p>
-        <div class="status" style="--kleur:${st.kleur}">${SCHIP_SVG}<span>${esc(st.naam)}</span></div>
+        <div class="status" style="--kleur:${st.kleur}">${icoon(s.status)}<span>${esc(st.naam)}</span></div>
         <p class="verhaal">${esc(s.verhaal)}</p>
       </div>
+      ${eer ? `<div class="vak herdenking"><p class="label">in memoriam</p><p>${esc(eer.herdenking)}</p></div>` : ""}
       <div class="duo">
-        <div class="vak"><span class="label">buit</span><div class="balkje"></div>
-          <span class="bedrag">${esc(sch.totaal)}</span><span class="klein">hele lading, in geld van nu</span>
+        <div class="vak"><span class="label">${eer ? "lading" : "buit"}</span><div class="balkje"></div>
+          <span class="bedrag">${esc(sch.totaal)}</span><span class="klein">${eer ? esc(sch.soort) : "hele lading, in geld van nu"}</span>
           <span class="groot">${esc(s.buit)}</span></div>
-        <div class="vak"><span class="label">waarde nog op de bodem</span>
+        <div class="vak"><span class="label">${eer ? "nog op de bodem" : "waarde nog op de bodem"}</span>
           <div class="balkje spoor" title="${procent}"><div class="balkje goud" style="width:${(100 * sch.deel).toFixed(1)}%"></div></div>
-          <span class="bedrag">${esc(sch.bodem)}</span><span class="klein">beste schatting · ${procent}</span>
+          <span class="bedrag">${esc(sch.bodem)}</span><span class="klein">${eer ? "de hele lading ligt nog in het wrak" : `beste schatting · ${procent}`}</span>
           <span class="zekerheid" title="Hoe zeker is deze schatting?">zekerheid: ${esc(sch.zekerheid)}
             <span class="stipjes" aria-hidden="true">${[1, 2, 3, 4].map(i => `<i${i <= niveau ? ' class="aan"' : ""}></i>`).join("")}</span></span></div>
       </div>
       <div class="vak geschat">
-        <p class="label">hoe is dit geschat?</p>
+        <p class="label">${eer ? "over de lading" : "hoe is dit geschat?"}</p>
         <p>${esc(sch.uitleg)}</p>
-        <p class="klein">Gerekend met goud ${esc(PRIJZEN.goud)} en zilver ${esc(PRIJZEN.zilver)} (${esc(PRIJZEN.datum)}). Dat is de waarde van het metaal; munten en voorwerpen zijn voor verzamelaars vaak meer waard.</p>
+        ${eer ? "" : `<p class="klein">Gerekend met goud ${esc(PRIJZEN.goud)} en zilver ${esc(PRIJZEN.zilver)} (${esc(PRIJZEN.datum)}). Dat is de waarde van het metaal; munten en voorwerpen zijn voor verzamelaars vaak meer waard.</p>`}
         <p class="bronnen">${sch.bronnen.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`).join("")}</p>
       </div>
       <div class="vak diepte">
@@ -373,7 +404,7 @@
           <p>${esc(s.diepte.tekst)}</p>
           <p class="bronnen"><a href="${esc(s.diepte.bron[1])}" target="_blank" rel="noopener">${esc(s.diepte.bron[0])}</a></p>
         </div>
-        ${dieptemeter(s.diepte.meters)}
+        ${dieptemeter(s.diepte.meters, icoon(s.status))}
       </div>
       <dl class="vak feiten">
         ${feiten.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("")}

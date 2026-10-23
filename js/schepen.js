@@ -23,6 +23,10 @@
 //  diepte: meters = hoe diep het wrak (waarschijnlijk) ligt, voor de
 //          dieptemeter (null als niemand het weet), kort = wat er groot
 //          staat, tekst = uitleg, bron = [titel, link].
+//  eerbetoon: (alleen bij status eerbetoon) geen schatschip maar een
+//          eerbetoon. Het krijgt een gouden vrachtschip als teken, en
+//          herdenking = een tekst ter nagedachtenis. Bij de schatting
+//          staat dan in soort wat de lading was.
 // ===================================================================
 
 // De prijzen waarmee de schattingen zijn berekend (metaalwaarde).
@@ -37,7 +41,8 @@ window.STATUSSEN = {
   onzeker:  { naam: "Wrak niet definitief geïdentificeerd", kort: "onzeker",        kleur: "#c9a2ff", gloed: "rgba(201,162,255,.5)" },
   gevonden: { naam: "Ontdekt, vrijwel niet geborgen",       kort: "gevonden",       kleur: "#ffa94d", gloed: "rgba(255,169,77,.5)" },
   deels:    { naam: "Ontdekt, gedeeltelijk geborgen",       kort: "deels geborgen", kleur: "#8cc0ff", gloed: "rgba(140,192,255,.5)" },
-  geborgen: { naam: "Ontdekt, vrijwel volledig geborgen",   kort: "geborgen",       kleur: "#f5f2e6", gloed: "rgba(245,242,230,.45)" }
+  geborgen: { naam: "Ontdekt, vrijwel volledig geborgen",   kort: "geborgen",       kleur: "#f5f2e6", gloed: "rgba(245,242,230,.45)" },
+  eerbetoon: { naam: "Eerbetoon (honorable mention)",       kort: "eerbetoon",      kleur: "#f4c24f", gloed: "rgba(244,194,79,.75)" }
 };
 
 const WRAK = "WRAK";
@@ -610,5 +615,55 @@ window.SCHEPEN = [
     },
     wrak: [55.32, -7.6],
     lijn: [[53.39, -3.03, "Birkenhead"], [53.6, -3.7], [54.4, -5.1], [55.25, -6.4], WRAK, [55.6, -15.0], [50.0, -40.0], [44.64, -63.57, "Canada (Halifax)"]]
+  },
+  {
+    naam: "Edmund Fitzgerald",
+    jaar: 1975,
+    land: "Verenigde Staten",
+    status: "eerbetoon",
+    route: "Superior (Wisconsin) → Detroit (Zug Island), over het Bovenmeer, de St. Marysrivier en het Huronmeer.",
+    locatie: "Bovenmeer (Lake Superior), ongeveer 27 km van Whitefish Bay, in Canadese wateren.",
+    verhaal: "Op 9 november 1975 vertrok de ‘Mighty Fitz’, bij haar tewaterlating het grootste schip op de Grote Meren, uit Superior met 26.000 ton ijzererts. Samen met de Arthur M. Anderson voer kapitein Ernest McSorley een zware novemberstorm in, met orkaanstoten en golven tot 11 meter hoog. Op 10 november raakte de Fitzgerald beschadigd, ging ze scheef liggen en viel haar radar uit. De Anderson bleef achter haar en loodste haar per radio door de storm. Rond 19.10 uur meldde de Fitzgerald nog rustig: “We are holding our own.” Kort daarna verdween het schip van het radarscherm, zonder noodsignaal. Alle 29 mannen aan boord kwamen om. Terwijl andere schepen een veilige haven zochten, keerde de bemanning van de Anderson op verzoek van de kustwacht midden in de storm om om te zoeken. Er werd niemand gevonden.",
+    buit: "26.000 ton ijzererts: taconietkorrels uit Minnesota, voor de staalfabrieken bij Detroit.",
+    feiten: [
+      ["Lengte", "222 meter. Bij de tewaterlating in 1958 het langste schip op de Grote Meren."],
+      ["Kapitein", "Ernest M. McSorley, die na deze reis met pensioen zou gaan."],
+      ["Bemanning", "29 mannen. Niemand overleefde het en niemand werd gevonden."],
+      ["Laatste bericht", "“We are holding our own.” (10 november 1975, rond 19.10 uur)"],
+      ["Het lied", "‘The Wreck of the Edmund Fitzgerald’ van Gordon Lightfoot (1976) maakte het verhaal over de hele wereld bekend."],
+      ["De scheepsbel", "In 1995 opgehaald en vervangen door een kopie met de namen van de bemanning. De echte bel hangt in het Great Lakes Shipwreck Museum op Whitefish Point."]
+    ],
+    eerbetoon: {
+      herdenking: "Elk jaar op 10 november luidt het Great Lakes Shipwreck Museum de scheepsbel 29 keer, één keer voor ieder bemanningslid, en nog één keer voor alle zeelieden die op de Grote Meren zijn gebleven."
+    },
+    schatting: {
+      totaal: "26.000 ton",
+      soort: "ijzererts (taconiet)",
+      bodem: "alles",
+      deel: 1,
+      zekerheid: "hoog",
+      uitleg: "De Fitzgerald had 26.116 ‘long tons’ taconiet aan boord: kleine korrels ijzererts. Dat is ongeveer 26.500 gewone ton. Er is niets van geborgen; de lading ligt nog in het wrak. In geld is dat weinig vergeleken met de schatschepen: met een ertsprijs van rond de €90 per ton ruwweg €2 à 3 miljoen. De waarde van dit wrak zit niet in de lading, maar in het verhaal.",
+      bronnen: [
+        ["Wikipedia: SS Edmund Fitzgerald", "https://en.wikipedia.org/wiki/SS_Edmund_Fitzgerald"],
+        ["Great Lakes Shipwreck Museum", "https://www.shipwreckmuseum.com/"]
+      ]
+    },
+    diepte: {
+      meters: 162,
+      kort: "ca. 162 m",
+      tekst: "Het wrak ligt in twee grote stukken op de bodem van het Bovenmeer. Het is een zeemansgraf: duiken mag alleen met een vergunning van de Canadese provincie Ontario.",
+      bron: ["Wikipedia: SS Edmund Fitzgerald", "https://en.wikipedia.org/wiki/SS_Edmund_Fitzgerald"]
+    },
+    noot: "Geen schatschip, maar een eerbetoon aan de 29 mannen van de Edmund Fitzgerald, het bekendste wrak van de Grote Meren. Het wrak is wettelijk beschermd en er wordt niets geborgen.",
+    afbeelding: {
+      src: "img/edmund-fitzgerald.jpg",
+      onderschrift: "De Edmund Fitzgerald in 1971",
+      maker: "Greenmars",
+      licentie: "CC BY-SA 3.0",
+      bron: "https://commons.wikimedia.org/wiki/File:Edmund_Fitzgerald,_1971,_3_of_4_(restored;_cropped).jpg",
+      positie: "50% 60%"
+    },
+    wrak: [46.998, -85.11],
+    lijn: [[46.72, -92.07, "Superior"], [46.9, -91.6], [47.6, -89.5], [48.0, -87.6], [47.8, -86.4], [47.4, -85.98], WRAK, [46.75, -84.85], [46.5, -84.35, "Sault Ste. Marie"], [45.95, -83.9], [45.3, -82.9], [44.0, -82.4], [43.2, -82.3], [42.97, -82.42], [42.45, -82.7], [42.29, -83.1, "Detroit"]]
   }
 ];
